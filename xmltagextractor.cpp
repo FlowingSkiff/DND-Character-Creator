@@ -38,6 +38,7 @@ int main(int, char**)
     std::vector<Companion> companions;
     std::vector<CompanionAction> companionActions;
     std::vector<AbilityScoreImprovement> abilityScoreImprovements;
+    std::vector<Rule> rules;
     for (const auto& p : paths)
     {
         XMLDocument xmlDoc;
@@ -59,10 +60,10 @@ int main(int, char**)
         // RecursiveGetSources(sources, firstElement);
         // RecursiveFindAllRuleAttNames(allRuleAttNames, firstElement);
         // RecursiveGetFeatFeatures(featFeatures, firstElement);
-        RecursiveGetElementsByType(abilityScoreImprovements, firstElement, "Ability Score Improvement");
+        RecursiveGetElementsByType(rules, firstElement, "Rule");
     }
-    std::ofstream outtmp("abilityScoreImprovements.txt");
-    for (const auto& f: abilityScoreImprovements)
+    std::ofstream outtmp("rules.txt");
+    for (const auto& f: rules)
     {
         outtmp << f << '\n';
     }
