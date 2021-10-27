@@ -24,7 +24,7 @@ namespace Creator::Entity
         Item,                            // TODO: Implement into structure
         Weapon,                          // TODO: Implement into structure
         Class,                           // TODO: Implement into structure
-        Ability_Score_Improvement,       // TODO: Implement into structure
+        Ability_Score_Improvement,       // DONE
         Rule,                            // TODO: Implement into structure
         Source,                          // DONE
         Language,                        // DONE
