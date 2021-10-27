@@ -41,7 +41,9 @@ namespace Creator::Entity
             << "description: " << description << '\n'
             << "short_description: " << short_description << '\n'
             << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n';
+            << "external_id: " << external_id << '\n'
+            << "type: " << static_cast<int>(type) << '\n'
+            << "compendium display: " << display_in_compendium << '\n';
         return os;
     }
 

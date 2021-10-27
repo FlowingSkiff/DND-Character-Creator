@@ -971,15 +971,8 @@ namespace Creator::Entity
     
     std::ostream& Spell::WriteToStream(std::ostream& os) const
     {
-        os  << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "is_ritual: " << is_ritual << '\n'
+        SQObject::WriteToStream(os);
+        os  << "is_ritual: " << is_ritual << '\n'
             << "is_concentration: " << is_concentration << '\n'
             << "has_verbal_component: " << has_verbal_component << '\n'
             << "has_somantic_component: " << has_somantic_component << '\n'
@@ -996,15 +989,8 @@ namespace Creator::Entity
     }
     std::ostream& Deity::WriteToStream(std::ostream& os) const
     {
-        os  << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "setting: " << setting << '\n'
+        SQObject::WriteToStream(os);
+        os  << "setting: " << setting << '\n'
             << "alignment: " << alignment << '\n'
             << "domains: " << domains << '\n'
             << "symbol: " << symbol << '\n'
@@ -1015,15 +1001,8 @@ namespace Creator::Entity
 
     std::ostream& Language::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "is_standard: " << is_standard << '\n'
+        SQObject::WriteToStream(os);
+        os  << "is_standard: " << is_standard << '\n'
             << "is_monster: " << is_monster << '\n'
             << "is_exotic: " << is_exotic << '\n'
             << "is_secret: " << is_secret << '\n'
@@ -1035,15 +1014,8 @@ namespace Creator::Entity
 
     std::ostream& Source::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "abbreviation: " << abbreviation << '\n'
+        SQObject::WriteToStream(os);
+        os  << "abbreviation: " << abbreviation << '\n'
             << "url: " << url << '\n'
             << "image: " << image << '\n'
             << "errata: " << errata << '\n'
@@ -1067,62 +1039,37 @@ namespace Creator::Entity
 
     std::ostream& Information::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n';
+        SQObject::WriteToStream(os);
         return os;
     }
 
     std::ostream& FeatFeature::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "supports: " << supports << '\n';
+        SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
-        os  << "requirements: " << requirements << '\n'
+        os  << "supports: " << supports << '\n'
+            << "requirements: " << requirements << '\n'
             << rules;
         return os;
     }
 
     std::ostream& Feat::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "requirements: " << requirements << '\n'
-            << "prerequisite: " << prerequisite << '\n';
+        SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
+        os  << "requirements: " << requirements << '\n'
+            << "prerequisite: " << prerequisite << '\n'
+            << "allow duplicate: " << allow_duplicate << '\n';
         os  << rules;
         return os;
     }
 
     std::ostream& Companion::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "supports: " << supports << '\n';
+        SQObject::WriteToStream(os);
+        os  << "supports: " << supports << '\n'
+            << "requirements: " << requirements << '\n'
+            << rules;
         CharacterBase::WriteToStream(os);
         os  << rules;
         return os;
@@ -1130,29 +1077,17 @@ namespace Creator::Entity
 
     std::ostream& CompanionAction::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n';
+        SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
+        os  << "action: " << action << '\n'
+            << rules << '\n';
         return os;
     }
 
     std::ostream& AbilityScoreImprovement::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "requirements: " << requirements << '\n'
+        SQObject::WriteToStream(os);
+        os  << "requirements: " << requirements << '\n'
             << "supports: " << supports << '\n'
             << "allow_duplicate: " << allow_duplicate << '\n';
         SheetDisplay::WriteToStream(os);
@@ -1162,15 +1097,8 @@ namespace Creator::Entity
 
     std::ostream& Rule::WriteToStream(std::ostream& os) const
     {
-        os << std::boolalpha
-            << "id: " << id << '\n'
-            << "name: " << name << '\n'
-            << "description: " << description << '\n'
-            << "short_description: " << short_description << '\n'
-            << "source: " << source << '\n'
-            << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
-            << "keywords: " << keywords << '\n';
+        SQObject::WriteToStream(os);
+        os << "keywords: " << keywords << '\n';
         return os;
     }
 }
