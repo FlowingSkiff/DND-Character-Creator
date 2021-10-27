@@ -1261,6 +1261,77 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- RaceVariant --------------------
+
+    RaceVariant::RaceVariant(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Race_Variant)
+    {
+        LogError("Constructor for RaceVariant called but not implemented");
+    }
+
+    RaceVariant::RaceVariant(tinyxml2::XMLElement* node): SQObject(Type::Race_Variant, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "requirements"))
+            {
+                if (auto* tmp = child->GetText())
+                    requirements = tmp;
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected RaceVariant child: {} for RaceVariant {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype RaceVariant::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string RaceVariant::GetReadFormat() const
+    {
+        LogError("ReadFormat called for RaceVariant called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string RaceVariant::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for RaceVariant called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1533,6 +1604,14 @@ namespace Creator::Entity
         os  << "requirements: " << requirements << '\n'
             << "supports: " << supports << '\n'
             << "prerequisites: " << prerequisite << '\n'
+            << rules;
+        return os;
+    }
+    std::ostream& RaceVariant::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << "supports: " << supports << '\n'
             << rules;
         return os;
     }

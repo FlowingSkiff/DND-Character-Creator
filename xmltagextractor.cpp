@@ -44,6 +44,7 @@ int main(int, char**)
     std::vector<BackgroundFeature> backgroundFeatures;
     std::vector<ClassFeature> classFeatures;
     std::vector<ArchetypeFeature> archetypeFeatures;
+    std::vector<RaceVariant> raceVariants;
     for (const auto& p : paths)
     {
         XMLDocument xmlDoc;
@@ -65,10 +66,10 @@ int main(int, char**)
         // RecursiveGetSources(sources, firstElement);
         // RecursiveFindAllRuleAttNames(allRuleAttNames, firstElement);
         // RecursiveGetFeatFeatures(featFeatures, firstElement);
-        RecursiveGetElementsByType(archetypeFeatures, firstElement, "Archetype Feature");
+        RecursiveGetElementsByType(raceVariants, firstElement, "Race Variant");
     }
-    std::ofstream outtmp("logs/archetypeFeatures.txt");
-    for (const auto& f: archetypeFeatures)
+    std::ofstream outtmp("logs/raceVariants.txt");
+    for (const auto& f: raceVariants)
     {
         outtmp << f << '\n';
     }
