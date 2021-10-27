@@ -875,6 +875,67 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- Option --------------------
+
+    Option::Option(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Option)
+    {
+        LogError("Constructor for Rule called but not implemented");
+    }
+
+    Option::Option(tinyxml2::XMLElement* node): SQObject(Type::Option, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected Option child: {} for Option {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Option::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string Option::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Option called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Option::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Option called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1099,6 +1160,13 @@ namespace Creator::Entity
     {
         SQObject::WriteToStream(os);
         os << "keywords: " << keywords << '\n';
+        return os;
+    }
+    std::ostream& Option::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os << rules << '\n';
         return os;
     }
 }

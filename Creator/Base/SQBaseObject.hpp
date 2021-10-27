@@ -19,7 +19,7 @@ namespace Creator::Entity
         Race,                            // TODO: Implement into structure
         Magic_Item,                      // TODO: Implement into structure
         Sub_Race,                        // TODO: Implement into structure
-        Option,                          // TODO: Implement into structure
+        Option,                          // DONE
         Armor,                           // TODO: Implement into structure
         Item,                            // TODO: Implement into structure
         Weapon,                          // TODO: Implement into structure
