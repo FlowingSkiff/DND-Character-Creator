@@ -92,6 +92,8 @@ namespace Creator::Entity
             {
                 if (SafeCompareString(att->Name(), "default-behavior", CompareOpts::Default))
                     select_default_behaviour = att->Value();
+                if (SafeCompareString(att->Name(), "default-behaviour", CompareOpts::Default))
+                    select_default_behaviour = att->Value();
                 else if (SafeCompareString(att->Name(), "level", CompareOpts::Default))
                     select_level = att->Value();
                 else if (SafeCompareString(att->Name(), "requirements", CompareOpts::Default))
