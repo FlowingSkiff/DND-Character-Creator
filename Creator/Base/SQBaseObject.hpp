@@ -30,7 +30,7 @@ namespace Creator::Entity
         Language,                        // DONE
         Companion,                       // DONE
         Companion_Action,                // DONE
-        Background,                      // TODO: Implement into structure
+        Background,                      // DONE
         Deity,                           // DONE
         Feat,                            // DONE
         Feat_Feature,                    // DONE

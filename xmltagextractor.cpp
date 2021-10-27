@@ -40,6 +40,7 @@ int main(int, char**)
     std::vector<AbilityScoreImprovement> abilityScoreImprovements;
     std::vector<Rule> rules;
     std::vector<Option> options;
+    std::vector<Background> backgrounds;
     for (const auto& p : paths)
     {
         XMLDocument xmlDoc;
@@ -61,10 +62,10 @@ int main(int, char**)
         // RecursiveGetSources(sources, firstElement);
         // RecursiveFindAllRuleAttNames(allRuleAttNames, firstElement);
         // RecursiveGetFeatFeatures(featFeatures, firstElement);
-        RecursiveGetElementsByType(options, firstElement, "Option");
+        RecursiveGetElementsByType(backgrounds, firstElement, "Background");
     }
-    std::ofstream outtmp("options.txt");
-    for (const auto& f: options)
+    std::ofstream outtmp("logs/backgrounds.txt");
+    for (const auto& f: backgrounds)
     {
         outtmp << f << '\n';
     }
