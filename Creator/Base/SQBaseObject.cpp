@@ -348,20 +348,26 @@ namespace Creator::Entity
 
     std::ostream& SpellcastingBase::WriteToStream(std::ostream& os) const
     {
-        os  << "is_spellcasting: " << is_spellcasting << '\n'
-            << "spellcasting_name: " << spellcasting_name << '\n'
-            << "spellcasting_ability: " << spellcasting_ability << '\n'
-            << "spellcasting_allow_replace: " << spellcasting_allow_replace << '\n'
-            << "spellcasting_list: " << spellcasting_list << '\n'
-            << "spellcasting_list_known: " << spellcasting_list_known << '\n'
-            << "spellcasting_extend: " << spellcasting_extend << '\n'
-            << "spellcasting_prepare: " << spellcasting_prepare << '\n';
+        os  << "is_spellcasting: " << is_spellcasting << '\n';
+        if (is_spellcasting)
+        {
+            os  << "spellcasting_name: " << spellcasting_name << '\n'
+                << "spellcasting_ability: " << spellcasting_ability << '\n'
+                << "spellcasting_allow_replace: " << spellcasting_allow_replace << '\n'
+                << "spellcasting_list: " << spellcasting_list << '\n'
+                << "spellcasting_list_known: " << spellcasting_list_known << '\n'
+                << "spellcasting_extend: " << spellcasting_extend << '\n'
+                << "spellcasting_prepare: " << spellcasting_prepare << '\n'
+                << "spellcasting all: " << spellcasting_all << '\n';
+            for (const auto& s : spellcasting_extend_list)
+                os << "Extend: " << s << '\n';
+        }
         return os;
     }
 
     void SpellcastingBase::Construct(tinyxml2::XMLElement* node)
     {
-        if (!SafeCompareString(node->Name(), "spellcasting"))
+        if (SafeCompareString(node->Name(), "spellcasting"))
         {
             is_spellcasting = true;
             auto att = node->FirstAttribute();
@@ -375,6 +381,10 @@ namespace Creator::Entity
                     spellcasting_allow_replace = att->BoolValue();
                 else if (SafeCompareString(att->Name(), "prepare"))
                     spellcasting_prepare = att->BoolValue();
+                else if (SafeCompareString(att->Name(), "extend"))
+                    spellcasting_extend = att->BoolValue();
+                else if (SafeCompareString(att->Name(), "all"))
+                    spellcasting_all = att->BoolValue();
                 else
                     LogWarn("Unexpected spellcasting attribute {}", att->Name());
                 att = att->Next();
@@ -386,12 +396,12 @@ namespace Creator::Entity
                 {
                     if (auto tmp = child->GetText())
                         spellcasting_list = tmp;
-                    auto att = child->FirstAttribute();
-                    while(att)
+                    auto latt = child->FirstAttribute();
+                    while(latt)
                     {
-                        if (SafeCompareString(att->Name(), "known"))
-                            spellcasting_list_known = att->BoolValue();
-                        att = att->Next();
+                        if (SafeCompareString(latt->Name(), "known"))
+                            spellcasting_list_known = latt->BoolValue();
+                        latt = latt->Next();
                     }
                 }
                 else if (SafeCompareString(child->Name(), "extend"))
