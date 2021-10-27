@@ -12,7 +12,7 @@ namespace Creator::Entity
     {
         None = -1,                       // TODO: Implement into structure
         General,                         // TODO: Implement into structure
-        Archetype_Feature,               // TODO: Implement into structure
+        Archetype_Feature,               // DONE
         Archetype,                       // TODO: Implement into structure
         Class_Feature,                   // DONE
         Spell,                           // DONE

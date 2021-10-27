@@ -221,7 +221,7 @@ namespace Creator::Entity
             auto att = node->FirstAttribute();
             while(att)
             {
-                if (SafeCompareString(att->Name(), "equpped", CompareOpts::Default))
+                if (SafeCompareString(att->Name(), "equipped", CompareOpts::Default))
                     grant_equipped = att->Value();
                 else if (SafeCompareString(att->Name(), "prepared", CompareOpts::Default))
                     grant_prepared = att->Value();
@@ -238,7 +238,7 @@ namespace Creator::Entity
                 else if (SafeCompareString(att->Name(), "type", CompareOpts::Default))
                     grant_type = att->Value();
                 else
-                    LogWarn("Unexpected stat attribute {}", att->Name());
+                    LogWarn("Unexpected grant attribute {}", att->Name());
                 att = att->Next();
             }
             return true;
