@@ -111,7 +111,21 @@ namespace Creator::Entity
                 else if (SafeCompareString(att->Name(), "name", CompareOpts::Default))
                     select_name = att->Value();
                 else if (SafeCompareString(att->Name(), "type", CompareOpts::Default))
+                {
                     select_type = att->Value();
+                    if (SafeCompareString(select_type, "List", CompareOpts::Default))
+                    {
+                        auto list_obj = node->FirstChildElement();
+                        while(list_obj)
+                        {
+                            if (auto text = list_obj->GetText())
+                            {
+                                select_list_values.emplace_back(text);
+                            }
+                            list_obj = list_obj->NextSiblingElement();
+                        }
+                    }
+                }
                 else
                     LogWarn("Unexpected select attribute {}", att->Name());
                 att = att->Next();
@@ -123,19 +137,22 @@ namespace Creator::Entity
 
     std::ostream& Select::WriteToStream(std::ostream& os) const
     {
-        return os << std::boolalpha << "Type: SELECT\n"
-                  << "Default Behavior: " << select_default_behaviour << '\n'
-                  << "Default: " << select_default << '\n'
-                  << "Requirements: " << select_requirements << '\n'
-                  << "Optional: " << select_optional << '\n'
-                  << "Level: " << select_level << '\n'
-                  << "Number: " << select_number << '\n'
-                  << "Prepared: " << select_prepared << '\n'
-                  << "Spellcasting: " << select_spellcasting << '\n'
-                  << "Supports: " << select_supports << '\n'
-                  << "AllowReplace: " << select_allowReplace << '\n'
-                  << "Name: " << select_name << '\n'
-                  << "Type: " << select_type << '\n';
+        os  << std::boolalpha << "Type: SELECT\n"
+            << "Default Behavior: " << select_default_behaviour << '\n'
+            << "Default: " << select_default << '\n'
+            << "Requirements: " << select_requirements << '\n'
+            << "Optional: " << select_optional << '\n'
+            << "Level: " << select_level << '\n'
+            << "Number: " << select_number << '\n'
+            << "Prepared: " << select_prepared << '\n'
+            << "Spellcasting: " << select_spellcasting << '\n'
+            << "Supports: " << select_supports << '\n'
+            << "AllowReplace: " << select_allowReplace << '\n'
+            << "Name: " << select_name << '\n'
+            << "Type: " << select_type << '\n';
+        for (const auto& s : select_list_values)
+            os << s << '\n';
+        return os;
     }
 
     /// -------------------- Stat --------------------

@@ -98,7 +98,7 @@ namespace Creator::Entity
         virtual Factory::Maptype GetMemberMap();
     };
 
-    // TODO: Add in List -> item support for text only selections
+    
     struct Select
     {
         bool Construct(tinyxml2::XMLElement* node);
