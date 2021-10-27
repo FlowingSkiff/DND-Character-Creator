@@ -467,7 +467,7 @@ namespace Creator::Entity
 
     /// -------------------- FEATFEATURE --------------------
 
-    FeatFeature::FeatFeature(int argc, char** argv, char** colz): SQObject(Type::Feat_Feature)
+    FeatFeature::FeatFeature(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Feat_Feature)
     {
         LogError("Constructor for Feat Feature called but not implemented");
     }
@@ -531,7 +531,7 @@ namespace Creator::Entity
 
     /// -------------------- Feat --------------------
 
-    Feat::Feat(int argc, char** argv, char** colz): SQObject(Type::Feat)
+    Feat::Feat(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Feat)
     {
         LogError("Constructor for Feat called but not implemented");
     }
@@ -602,7 +602,7 @@ namespace Creator::Entity
 
     /// -------------------- Companion --------------------
 
-    Companion::Companion(int argc, char** argv, char** colz): SQObject(Type::Companion)
+    Companion::Companion(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Companion)
     {
         LogError("Constructor for Companion called but not implemented");
     }
@@ -692,7 +692,7 @@ namespace Creator::Entity
 
     /// -------------------- CompanionAction --------------------
 
-    CompanionAction::CompanionAction(int argc, char** argv, char** colz): SQObject(Type::Companion_Action)
+    CompanionAction::CompanionAction(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Companion_Action)
     {
         LogError("Constructor for Comanion Action called but not implemented");
     }
