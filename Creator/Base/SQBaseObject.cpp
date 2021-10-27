@@ -345,4 +345,68 @@ namespace Creator::Entity
             << "sheet name: " << sheet_name << '\n';
         return os;
     }
+
+    std::ostream& SpellcastingBase::WriteToStream(std::ostream& os) const
+    {
+        os  << "is_spellcasting: " << is_spellcasting << '\n'
+            << "spellcasting_name: " << spellcasting_name << '\n'
+            << "spellcasting_ability: " << spellcasting_ability << '\n'
+            << "spellcasting_allow_replace: " << spellcasting_allow_replace << '\n'
+            << "spellcasting_list: " << spellcasting_list << '\n'
+            << "spellcasting_list_known: " << spellcasting_list_known << '\n'
+            << "spellcasting_extend: " << spellcasting_extend << '\n'
+            << "spellcasting_prepare: " << spellcasting_prepare << '\n';
+        return os;
+    }
+
+    void SpellcastingBase::Construct(tinyxml2::XMLElement* node)
+    {
+        if (!SafeCompareString(node->Name(), "spellcasting"))
+        {
+            is_spellcasting = true;
+            auto att = node->FirstAttribute();
+            while (att)
+            {
+                if (SafeCompareString(att->Name(), "name"))
+                    spellcasting_name = att->Value();
+                else if (SafeCompareString(att->Name(), "ability"))
+                    spellcasting_ability = att->Value();
+                else if (SafeCompareString(att->Name(), "allowReplace"))
+                    spellcasting_allow_replace = att->BoolValue();
+                else if (SafeCompareString(att->Name(), "prepare"))
+                    spellcasting_prepare = att->BoolValue();
+                else
+                    LogWarn("Unexpected spellcasting attribute {}", att->Name());
+                att = att->Next();
+            }
+            auto child = node->FirstChildElement();
+            while(child)
+            {
+                if (SafeCompareString(child->Name(), "list"))
+                {
+                    if (auto tmp = child->GetText())
+                        spellcasting_list = tmp;
+                    auto att = child->FirstAttribute();
+                    while(att)
+                    {
+                        if (SafeCompareString(att->Name(), "known"))
+                            spellcasting_list_known = att->BoolValue();
+                        att = att->Next();
+                    }
+                }
+                else if (SafeCompareString(child->Name(), "extend"))
+                {
+                    spellcasting_extend_list.emplace_back(child->GetText());
+                }
+                else
+                    LogWarn("Unhandled spellcasting child {}", child->Name());
+                child = child->NextSiblingElement();
+            }
+            
+        }
+        else
+        {
+            LogError("Invalid use of SpellcasingBase constructor. Expected head element, received {}", node->Name());
+        }
+    }
 } // namespace Creator::Entity
