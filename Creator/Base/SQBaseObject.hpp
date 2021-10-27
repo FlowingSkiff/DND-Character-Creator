@@ -31,7 +31,7 @@ namespace Creator::Entity
         Companion,                       // DONE
         Companion_Action,                // DONE
         Background,                      // DONE
-        Background_Feature,              // IN PROGRESS
+        Background_Feature,              // DONE
         Deity,                           // DONE
         Feat,                            // DONE
         Feat_Feature,                    // DONE
