@@ -31,6 +31,7 @@ namespace Creator::Entity
         Companion,                       // DONE
         Companion_Action,                // DONE
         Background,                      // DONE
+        Background_Feature,              // IN PROGRESS
         Deity,                           // DONE
         Feat,                            // DONE
         Feat_Feature,                    // DONE
@@ -54,6 +55,7 @@ namespace Creator::Entity
         std::string sheet_description = "";
         std::string sheet_usage = "";
         std::string sheet_action = "";
+        std::string sheet_name = "";
         /**
          * @brief Given the sheet head node from an xml document, it searches and builds the
          *        attributes for the sheet element. Alternate title, description, display

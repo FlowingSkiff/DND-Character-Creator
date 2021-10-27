@@ -69,6 +69,8 @@ namespace Creator::Entity
                     sheet_display = att->BoolValue();
                 else if (SafeCompareString(att->Name(), "action", CompareOpts::Default))
                     sheet_action = att->Value();
+                else if (SafeCompareString(att->Name(), "name", CompareOpts::Default))
+                    sheet_name = att->Value();
                 else
                     LogWarn("Unhandled sheet attribute: {}", att->Name());
                 att = att->Next();
@@ -339,7 +341,8 @@ namespace Creator::Entity
             << "sheet alt title: " << sheet_alt_title << '\n'
             << "sheet description: " << sheet_description << '\n'
             << "sheet usage: " << sheet_usage << '\n'
-            << "sheet action: " << sheet_action << '\n';
+            << "sheet action: " << sheet_action << '\n'
+            << "sheet name: " << sheet_name << '\n';
         return os;
     }
 } // namespace Creator::Entity

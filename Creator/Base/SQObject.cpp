@@ -112,7 +112,8 @@ namespace Creator::Entity
             {Setter::TIME,                  &time},
             {Setter::SCHOOL,                &school},
             {Setter::LEVEL,                 &level},
-            {Setter::KEYWORDS,              &keywords}
+            {Setter::KEYWORDS,              &keywords},
+            {Setter::SHORT,                 &short_description}
         };
     }
 
@@ -190,7 +191,8 @@ namespace Creator::Entity
             {Setter::ALIGNMENT, &alignment},
             {Setter::DOMAINS, &domains},
             {Setter::SYMBOL, &symbol},
-            {Setter::GENDER, &gender}
+            {Setter::GENDER, &gender},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -276,7 +278,8 @@ namespace Creator::Entity
             {Setter::EXOTIC, &is_exotic},
             {Setter::SECRET, &is_secret},
             {Setter::SPEAKERS, &speakers},
-            {Setter::SCRIPT, &script}
+            {Setter::SCRIPT, &script},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -394,7 +397,8 @@ namespace Creator::Entity
             {Setter::SUPPLEMENT, &is_supplement},
             {Setter::LEAGUE, &is_league},
             {Setter::LEGAL, &is_legal},
-            {Setter::DISABLED, &is_disabled}
+            {Setter::DISABLED, &is_disabled},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -450,7 +454,9 @@ namespace Creator::Entity
     Factory::Maptype Information::GetMemberMap()
     {
         using namespace Tags;
-        return {};
+        return {
+            {Setter::SHORT, &short_description}
+        };
     }
 
     
@@ -514,7 +520,9 @@ namespace Creator::Entity
     Factory::Maptype FeatFeature::GetMemberMap()
     {
         using namespace Tags;
-        return {};
+        return {
+            {Setter::SHORT, &short_description}
+        };
     }
 
     
@@ -584,7 +592,8 @@ namespace Creator::Entity
     {
         using namespace Tags;
         return {
-            {Setter::ALLOW_DUPLICATE, &allow_duplicate}
+            {Setter::ALLOW_DUPLICATE, &allow_duplicate},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -674,7 +683,8 @@ namespace Creator::Entity
             {Setter::SAVES, &saves},
             {Setter::REACTIONS, &reactions},
             {Setter::VULNERABILITIES, &vulnerabilities},
-            {Setter::RESISTANCES, &resistances}
+            {Setter::RESISTANCES, &resistances},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -735,7 +745,8 @@ namespace Creator::Entity
     {
         using namespace Tags;
         return {
-            {Setter::ACTION, &action}
+            {Setter::ACTION, &action},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -806,7 +817,8 @@ namespace Creator::Entity
     {
         using namespace Tags;
         return {
-            {Setter::ALLOW_DUPLICATE, &allow_duplicate}
+            {Setter::ALLOW_DUPLICATE, &allow_duplicate},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -859,7 +871,8 @@ namespace Creator::Entity
     {
         using namespace Tags;
         return {
-            {Setter::KEYWORDS, &keywords}
+            {Setter::KEYWORDS, &keywords},
+            {Setter::SHORT, &short_description}
         };
     }
 
@@ -997,6 +1010,77 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- BackgroundFeature --------------------
+
+    BackgroundFeature::BackgroundFeature(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Background_Feature)
+    {
+        LogError("Constructor for BackgroundFeature called but not implemented");
+    }
+
+    BackgroundFeature::BackgroundFeature(tinyxml2::XMLElement* node): SQObject(Type::Background_Feature, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else if (SafeCompareString(child->Value(), "requirements"))
+            {
+                if (auto* tmp = child->GetText())
+                    requirements = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected BackgroundFeature child: {} for BackgroundFeature {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype BackgroundFeature::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string BackgroundFeature::GetReadFormat() const
+    {
+        LogError("ReadFormat called for BackgroundFeature called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string BackgroundFeature::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for BackgroundFeature called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1068,6 +1152,9 @@ namespace Creator::Entity
                 break;
             case Type::Background: 
                 return new Background(argc, argv, colz);
+                break;
+            case Type::Background_Feature:
+                return new BackgroundFeature(argc, argv, colz);
                 break;
             case Type::Deity: 
                 return new Deity(argc, argv, colz);
@@ -1235,6 +1322,15 @@ namespace Creator::Entity
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
         os << rules << '\n';
+        return os;
+    }
+    std::ostream& BackgroundFeature::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << "requirements: " << requirements << '\n'
+            << "supports: " << supports << '\n'
+            << rules;
         return os;
     }
 }
