@@ -14,7 +14,7 @@ namespace Creator::Entity
         General,                         // TODO: Implement into structure
         Archetype_Feature,               // TODO: Implement into structure
         Archetype,                       // TODO: Implement into structure
-        Class_Feature,                   // TODO: Implement into structure
+        Class_Feature,                   // DONE
         Spell,                           // DONE
         Race,                            // TODO: Implement into structure
         Magic_Item,                      // TODO: Implement into structure

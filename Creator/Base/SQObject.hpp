@@ -419,6 +419,26 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
+    struct ClassFeature: public SQObject, public SheetDisplay, public SpellcastingBase
+    {
+        ClassFeature(int argc, char** argv, char** colz);
+        ClassFeature(tinyxml2::XMLElement* node);
+
+        std::vector<RuleBase> rules;
+        std::string supports = "";
+        std::string requirements = "";
+        std::string prerequisite = "";
+        bool allow_duplicate = false;
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
+        // member map for reading from xml setter options
+        Factory::Maptype GetMemberMap() override;
+    };
+
     /**
      * @brief Create a New Object From Type object
      * 
