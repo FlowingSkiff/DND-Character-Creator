@@ -37,7 +37,7 @@ namespace Creator::Entity
         Feat_Feature,                    // DONE
         Information,                     // DONE
         Race_Variant,                    // DONE
-        Racial_Trait                     // TODO: Implement into structure
+        Racial_Trait                     // DONE
     };
 
     

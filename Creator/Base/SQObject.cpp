@@ -1332,6 +1332,93 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- RacialTrait --------------------
+
+    RacialTrait::RacialTrait(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Racial_Trait)
+    {
+        LogError("Constructor for RacialTrait called but not implemented");
+    }
+
+    RacialTrait::RacialTrait(tinyxml2::XMLElement* node): SQObject(Type::Racial_Trait, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                const auto old_spellcasting_ability = spellcasting_ability;
+                const auto old_spellcasting_name = spellcasting_name; 
+                SetterFactory(GetMemberMap(), setter);
+                if (old_spellcasting_ability != spellcasting_ability ||
+                    old_spellcasting_name != spellcasting_name)
+                    is_spellcasting = true;
+            }
+            else if (SafeCompareString(child->Value(), "spellcasting"))
+            {
+                SpellcastingBase::Construct(child);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "requirements"))
+            {
+                if (auto* tmp = child->GetText())
+                    requirements = tmp;
+            }
+            else if (SafeCompareString(child->Value(), "prerequisite"))
+            {
+                if (auto* tmp = child->GetText())
+                    prerequisite = tmp;
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected RaceVariant child: {} for RaceVariant {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype RacialTrait::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description},
+            {Setter::SPELLCASTINGCLASS, &spellcasting_name},
+            {Setter::SPELLCASTINGABILITY, &spellcasting_ability}
+        };
+    }
+
+    
+    std::string RacialTrait::GetReadFormat() const
+    {
+        LogError("ReadFormat called for RacialTrait called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string RacialTrait::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for RacialTrait called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1360,7 +1447,10 @@ namespace Creator::Entity
                 return nullptr;
                 break;
             case Type::Race_Variant:
-                return nullptr;
+                return new RaceVariant(argc, argv, colz);
+                break;
+            case Type::Racial_Trait:
+                return new RacialTrait(argc, argv, colz);
                 break;
             case Type::Sub_Race: 
                 return nullptr;
@@ -1369,7 +1459,7 @@ namespace Creator::Entity
                 return nullptr;
                 break;
             case Type::Option: 
-                return nullptr;
+                return new Option(argc, argv, colz);
                 break;
             case Type::Armor: 
                 return nullptr;
@@ -1612,6 +1702,18 @@ namespace Creator::Entity
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
         os  << "supports: " << supports << '\n'
+            << "requirements: " << requirements << '\n'
+            << rules;
+        return os;
+    }
+    std::ostream& RacialTrait::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        SpellcastingBase::WriteToStream(os);
+        os  << "supports: " << supports << '\n'
+            << "requirements: " << requirements << '\n'
+            << "prerequisite: " << prerequisite << '\n'
             << rules;
         return os;
     }
