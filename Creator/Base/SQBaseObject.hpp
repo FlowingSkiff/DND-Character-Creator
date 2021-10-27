@@ -10,9 +10,32 @@ namespace Creator::Entity
     // Replace Magic_item, Armor, Weapon all into Weapon
     enum class Type
     {
-        None = -1, General, Archetype_Feature, Archetype, Class_Feature, Spell, Race, Magic_Item,
-        Sub_Race, Option, Armor, Item, Weapon, Class, Ability_Score_Improvement, Rule,
-        Source, Language, Companion, Companion_Action, Background, Deity, Feat, Feat_Feature, Information, Race_Variant
+        None = -1,                       // TODO: Implement into structure
+        General,                         // TODO: Implement into structure
+        Archetype_Feature,               // TODO: Implement into structure
+        Archetype,                       // TODO: Implement into structure
+        Class_Feature,                   // TODO: Implement into structure
+        Spell,                           // DONE
+        Race,                            // TODO: Implement into structure
+        Magic_Item,                      // TODO: Implement into structure
+        Sub_Race,                        // TODO: Implement into structure
+        Option,                          // TODO: Implement into structure
+        Armor,                           // TODO: Implement into structure
+        Item,                            // TODO: Implement into structure
+        Weapon,                          // TODO: Implement into structure
+        Class,                           // TODO: Implement into structure
+        Ability_Score_Improvement,       // TODO: Implement into structure
+        Rule,                            // TODO: Implement into structure
+        Source,                          // DONE
+        Language,                        // DONE
+        Companion,                       // DONE
+        Companion_Action,                // DONE
+        Background,                      // TODO: Implement into structure
+        Deity,                           // DONE
+        Feat,                            // DONE
+        Feat_Feature,                    // DONE
+        Information,                     // DONE
+        Race_Variant                     // TODO: Implement into structure
     };
 
     
