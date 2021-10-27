@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 link_libraries(stdc++fs tinyxml2 sqlite3 spdlog fmt)
-include_directories(thirdparty/include "C:/msys64/mingw64/include" Creator Creator/Base Creator/Tools)
+include_directories(thirdparty/include $ENV{MSYS2INCLUDE} Creator Creator/Base Creator/Tools)
 
 add_compile_definitions(SPDLOG_FMT_EXTERNAL)
 add_compile_options(-DDOLOG -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wunused -Wcast-align -Woverloaded-virtual -Wsign-conversion -Wconversion -Wpedantic -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wdouble-promotion -Wformat=2)
