@@ -193,7 +193,7 @@ namespace Creator::Entity
     struct SpellcastingBase
     {
         virtual ~SpellcastingBase(){}
-        
+
         bool is_spellcasting = false;
         std::string spellcasting_name = "";
         std::string spellcasting_ability = "";
@@ -202,6 +202,7 @@ namespace Creator::Entity
         bool spellcasting_list_known = false;
         bool spellcasting_extend = false;
         bool spellcasting_prepare = false;
+        bool spellcasting_all = false;
         std::vector<std::string> spellcasting_extend_list;
         virtual std::ostream& WriteToStream(std::ostream& os) const;
         void Construct(tinyxml2::XMLElement* node);
