@@ -25,7 +25,7 @@ namespace Creator::Entity
         Weapon,                          // TODO: Implement into structure
         Class,                           // TODO: Implement into structure
         Ability_Score_Improvement,       // DONE
-        Rule,                            // IN PROGRESS
+        Rule,                            // DONE
         Source,                          // DONE
         Language,                        // DONE
         Companion,                       // DONE
