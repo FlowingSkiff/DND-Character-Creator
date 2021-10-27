@@ -401,7 +401,7 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
-    struct BackgroundFeature: public SQObject, public SheetDisplay
+    struct BackgroundFeature: public SQObject, public SheetDisplay, public SpellcastingBase
     {
         BackgroundFeature(int argc, char** argv, char** colz);
         BackgroundFeature(tinyxml2::XMLElement* node);

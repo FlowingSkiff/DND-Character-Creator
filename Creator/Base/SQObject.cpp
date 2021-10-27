@@ -1034,6 +1034,10 @@ namespace Creator::Entity
             {
                 BuildSheetAttributes(child);
             }
+            else if (SafeCompareString(child->Value(), "spellcasting"))
+            {
+                SpellcastingBase::Construct(child);
+            }
             else if (SafeCompareString(child->Value(), "setters"))
             {
                 auto setter = child->FirstChildElement();
@@ -1328,6 +1332,7 @@ namespace Creator::Entity
     {
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
+        SpellcastingBase::WriteToStream(os);
         os  << "requirements: " << requirements << '\n'
             << "supports: " << supports << '\n'
             << rules;
