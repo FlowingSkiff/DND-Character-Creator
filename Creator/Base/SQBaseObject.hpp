@@ -13,7 +13,7 @@ namespace Creator::Entity
         None = -1,                       // TODO: Implement into structure
         General,                         // TODO: Implement into structure
         Archetype_Feature,               // DONE
-        Archetype,                       // TODO: Implement into structure
+        Archetype,                       // DONE
         Class_Feature,                   // DONE
         Spell,                           // DONE
         Race,                            // TODO: Implement into structure
