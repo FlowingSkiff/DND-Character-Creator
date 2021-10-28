@@ -7,8 +7,7 @@
 void ExplorePath(const std::string& path,
                  std::vector<std::string>& filepaths)
 {
-    using namespace std::filesystem;
-    for (const auto& e : directory_iterator(path))
+    for (const auto& e : std::filesystem::directory_iterator(path))
     {
         if (e.is_directory())
         {

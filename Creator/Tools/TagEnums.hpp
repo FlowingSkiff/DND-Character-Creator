@@ -126,14 +126,11 @@ namespace Creator::Entity::Tags
     }
 }
 
-namespace std
+// Hasing method for Setter enum class
+template<> struct std::hash<Creator::Entity::Tags::Setter>
 {
-    // Hasing method for Setter enum class
-    template<> struct hash<Creator::Entity::Tags::Setter>
+    std::size_t operator()(const Creator::Entity::Tags::Setter& s) const noexcept
     {
-        std::size_t operator()(const Creator::Entity::Tags::Setter& s) const noexcept
-        {
-            return std::hash<int>{}(static_cast<int>(s));
-        }
-    };
-}
+        return std::hash<int>{}(static_cast<int>(s));
+    }
+};
