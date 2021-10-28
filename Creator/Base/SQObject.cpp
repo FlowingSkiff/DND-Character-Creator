@@ -1419,6 +1419,76 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- SubRace --------------------
+
+    SubRace::SubRace(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Sub_Race)
+    {
+        LogError("Constructor for SubRace called but not implemented");
+    }
+
+    SubRace::SubRace(tinyxml2::XMLElement* node): SQObject(Type::Sub_Race, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected SubRace child: {} for SubRace {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype SubRace::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description},
+            {Setter::HEIGHT, &height},
+            {Setter::HEIGHTMODIFIER, &height_modifier},
+            {Setter::WEIGHT, &weight},
+            {Setter::WEIGHTMODIFIER, &weight_modifier}
+        };
+    }
+
+    
+    std::string SubRace::GetReadFormat() const
+    {
+        LogError("ReadFormat called for SubRace called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string SubRace::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for SubRace called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1714,6 +1784,18 @@ namespace Creator::Entity
         os  << "supports: " << supports << '\n'
             << "requirements: " << requirements << '\n'
             << "prerequisite: " << prerequisite << '\n'
+            << rules;
+        return os;
+    }
+    std::ostream& SubRace::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << "supports: " << supports << '\n'
+            << "height: " << height << '\n'
+            << "weight: " << weight << '\n'
+            << "height_modifier: " << height_modifier << '\n'
+            << "weight_modifier: " << weight_modifier << '\n'
             << rules;
         return os;
     }

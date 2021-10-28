@@ -18,7 +18,7 @@ namespace Creator::Entity
         Spell,                           // DONE
         Race,                            // TODO: Implement into structure
         Magic_Item,                      // TODO: Implement into structure
-        Sub_Race,                        // TODO: Implement into structure
+        Sub_Race,                        // DONE
         Option,                          // DONE
         Armor,                           // TODO: Implement into structure
         Item,                            // TODO: Implement into structure
