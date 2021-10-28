@@ -108,6 +108,8 @@ namespace Creator::Entity
             case Setter::AUTHORABBREVIATION:
             case Setter::AUTHORURL:
             case Setter::ACTION:
+            case Setter::HEIGHTMODIFIER:
+            case Setter::WEIGHTMODIFIER:
             {
                 if (text)
                     (*std::get<Factory::Texttype>(set)) = text;

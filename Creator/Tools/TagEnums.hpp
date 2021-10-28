@@ -107,7 +107,9 @@ namespace Creator::Entity::Tags
         SETTING,
         AUTHORABBREVIATION,
         AUTHORURL,
-        ACTION
+        ACTION,
+        HEIGHTMODIFIER,
+        WEIGHTMODIFIER
     };
 
     // Get an enum value from string. templated using the enum class name
