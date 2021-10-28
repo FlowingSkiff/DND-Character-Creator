@@ -1578,6 +1578,84 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- Race --------------------
+
+    Race::Race(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Race)
+    {
+        LogError("Constructor for Race called but not implemented");
+    }
+
+    Race::Race(tinyxml2::XMLElement* node): SQObject(Type::Race, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                const auto old_spellcasting_ability = spellcasting_ability;
+                const auto old_spellcasting_name = spellcasting_name; 
+                SetterFactory(GetMemberMap(), setter);
+                if (old_spellcasting_ability != spellcasting_ability ||
+                    old_spellcasting_name != spellcasting_name)
+                    is_spellcasting = true;
+            }
+            else if (SafeCompareString(child->Value(), "spellcasting"))
+            {
+                SpellcastingBase::Construct(child);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected Race child: {} for Race {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Race::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description},
+            {Setter::SPELLCASTINGCLASS, &spellcasting_name},
+            {Setter::SPELLCASTINGABILITY, &spellcasting_ability},
+            {Setter::NAMES, &names},
+            {Setter::NAMES_FORMAT, &names_format},
+            {Setter::HEIGHT, &height},
+            {Setter::WEIGHT, &weight},
+            {Setter::HEIGHTMODIFIER, &height_modifier},
+            {Setter::WEIGHTMODIFIER, &weight_modifier}
+        };
+    }
+
+    
+    std::string Race::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Race called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Race::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Race called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1603,7 +1681,7 @@ namespace Creator::Entity
                 return new Spell(argc, argv, colz);
                 break;
             case Type::Race: 
-                return nullptr;
+                return new Race(argc, argv, colz);
                 break;
             case Type::Race_Variant:
                 return new RaceVariant(argc, argv, colz);
@@ -1899,6 +1977,20 @@ namespace Creator::Entity
             << "source_url: " << source_url << '\n'
             << "is_override: " << is_override << '\n'
             << rules;
+        return os;
+    }
+    std::ostream& Race::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        SpellcastingBase::WriteToStream(os);
+        os  << "names_format: " <<  names_format << '\n'
+            << "height: " <<  height << '\n'
+            << "weight: " <<  weight << '\n';
+
+        for (const auto& p : names)
+            os << p << '\n';
+        os  << rules;
         return os;
     }
 }

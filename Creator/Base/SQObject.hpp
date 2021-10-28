@@ -540,6 +540,29 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
+    struct Race: public SQObject, public SheetDisplay, public SpellcastingBase
+    {
+        Race(int argc, char** argv, char** colz);
+        Race(tinyxml2::XMLElement* node);
+
+        std::vector<RuleBase> rules;
+        std::vector<std::string> names;
+        std::string names_format = "";
+        std::string height = "";
+        std::string weight = "";
+        std::string height_modifier = "";
+        std::string weight_modifier = "";
+
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
+        // member map for reading from xml setter options
+        Factory::Maptype GetMemberMap() override;
+    };
+
     /**
      * @brief Create a New Object From Type object
      * 

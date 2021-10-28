@@ -16,7 +16,7 @@ namespace Creator::Entity
         Archetype,                       // DONE
         Class_Feature,                   // DONE
         Spell,                           // DONE
-        Race,                            // TODO: Implement into structure
+        Race,                            // DONE
         Magic_Item,                      // TODO: Implement into structure
         Sub_Race,                        // DONE
         Option,                          // DONE
