@@ -113,6 +113,7 @@ namespace Creator::Entity
             case Setter::MULTICLASS_PROFICIENCIES:
             case Setter::WEIGHTLB:
             case Setter::COSTCURRENCY:
+            case Setter::DAMAGETYPE:
                 {
                     if (text)
                         (*std::get<Factory::Texttype>(set)) = text;

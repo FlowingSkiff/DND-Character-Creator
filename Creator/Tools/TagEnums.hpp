@@ -114,7 +114,8 @@ namespace Creator::Entity::Tags
         WEIGHTLB,
         COSTCURRENCY,
         WEIGHTEXCLUDEENCUMBRANCE,
-        COSTBULK
+        COSTBULK,
+        DAMAGETYPE
     };
 
     // Get an enum value from string. templated using the enum class name
