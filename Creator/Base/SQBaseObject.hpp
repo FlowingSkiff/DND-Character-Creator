@@ -20,7 +20,7 @@ namespace Creator::Entity
         Magic_Item,                      // TODO: Implement into structure
         Sub_Race,                        // DONE
         Option,                          // DONE
-        Armor,                           // TODO: Implement into structure
+        Armor,                           // DONE
         Item,                            // DONE
         Weapon,                          // DONE
         Class,                           // DONE
