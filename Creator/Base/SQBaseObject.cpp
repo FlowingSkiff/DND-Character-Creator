@@ -419,4 +419,49 @@ namespace Creator::Entity
             LogError("Invalid use of SpellcasingBase constructor. Expected head element, received {}", node->Name());
         }
     }
+
+
+    /// -------------------- ItemBase --------------------
+
+    Factory::Maptype& ItemBase::ModifySetMap(Factory::Maptype& map)
+    {
+        using namespace Tags;
+        map.insert({
+            {Setter::CATEGORY, &category},
+            {Setter::WEIGHT, &weight},
+            {Setter::WEIGHTLB, &weight_lb},
+            {Setter::COST, &cost},
+            {Setter::COSTCURRENCY, &cost_currency},
+            {Setter::STACKABLE, &is_stackable},
+            {Setter::RARITY, &rarity},
+            {Setter::TYPE, &set_type},
+            {Setter::KEYWORDS, &keywords},
+            {Setter::SLOT, &slot},
+            {Setter::PROFICIENCY, &proficiency},
+            {Setter::VALUABLE, &is_valuable},
+            {Setter::WEIGHTEXCLUDEENCUMBRANCE, &exclude_encumbrance},
+            {Setter::COSTBULK, &bulk_buy}
+        });
+        return map;
+    }
+
+    std::ostream& ItemBase::WriteToStream(std::ostream& os) const
+    {
+        return os  << std::boolalpha
+            << "is_stackable: " << is_stackable << '\n'
+            << "slot: " << slot << '\n'
+            << "proficiency: " << proficiency << '\n'
+            << "weight_lb: " << weight_lb << '\n'
+            << "weight: " << weight << '\n'
+            << "cost: " << cost << '\n'
+            << "cost_currency: " << cost_currency << '\n'
+            << "rarity: " << rarity << '\n'
+            << "bulk buy: " << bulk_buy << '\n'
+            << "is valuable: " << is_valuable << '\n'
+            << "category: " << category << '\n'
+            << "keywords: " << keywords << '\n'
+            << "type: " << set_type << '\n'
+            << "supports: " << supports << '\n'
+            << "exclude encumbrance: " << exclude_encumbrance << '\n';
+    }
 } // namespace Creator::Entity

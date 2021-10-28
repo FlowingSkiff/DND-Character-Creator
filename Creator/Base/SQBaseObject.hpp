@@ -209,6 +209,27 @@ namespace Creator::Entity
         void Construct(tinyxml2::XMLElement* node);
     };
 
+    struct ItemBase
+    {
+        bool is_stackable = false;
+        std::string slot = "";
+        std::string proficiency = "";
+        std::string weight_lb = "";
+        std::string weight = "";
+        std::string cost = "";
+        std::string cost_currency = "";
+        std::string rarity = "Common";
+        int bulk_buy = 1;
+        bool is_valuable = false;
+        std::string category = "";
+        std::string keywords = "";
+        std::string set_type = "";
+        std::string supports = "";
+        bool exclude_encumbrance = false;
+        std::ostream& WriteToStream(std::ostream& os) const;
+        Factory::Maptype& ModifySetMap(Factory::Maptype& map);
+    };
+
     std::vector<RuleBase> GenerateRules(tinyxml2::XMLElement* node);
     std::ostream& operator<<(std::ostream& os, const std::vector<RuleBase>& rhs);
     
