@@ -654,6 +654,45 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
+    struct MagicItem: public SQObject, public SheetDisplay, public ItemBase, public SpellcastingBase
+    {
+        MagicItem(int argc, char** argv, char** colz);
+        MagicItem(tinyxml2::XMLElement* node);
+
+
+        std::string enhancement;
+        std::string armor;
+        std::string name_format;
+        std::string type_addition;
+        std::string weapon;
+        std::string requirements;
+        std::string charges;
+        std::string attunement_addition;
+        bool attunement;
+        bool cursed;
+        std::string supports;
+        int strength;
+        std::string stealth;
+        std::string damage;
+        std::string damage_type;
+        std::string range;
+        bool is_equippable = false;
+        bool is_stash = false;
+        int stash_weight = 0;
+        bool is_stash_weightless = false;
+        bool cost_override = true;
+        std::string set_supports;
+        std::vector<RuleBase> rules;
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
+        // member map for reading from xml setter options
+        Factory::Maptype GetMemberMap() override;
+    };
+
     /**
      * @brief Create a New Object From Type object
      * 

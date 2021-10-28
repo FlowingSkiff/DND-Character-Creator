@@ -37,6 +37,8 @@ namespace Creator::Entity
             case Setter::CORE:
             case Setter::STACKABLE:
             case Setter::WEIGHTEXCLUDEENCUMBRANCE:
+            case Setter::STASHWEIGHTLESS:
+            case Setter::COSTOVERRIDE:
                 {
                     bool tmp;
                     if (text && tinyxml2::XMLUtil::ToBool(text, &tmp))
@@ -114,6 +116,8 @@ namespace Creator::Entity
             case Setter::WEIGHTLB:
             case Setter::COSTCURRENCY:
             case Setter::DAMAGETYPE:
+            case Setter::TYPEADDITION:
+            case Setter::ATTUNEMENTADDITION:
                 {
                     if (text)
                         (*std::get<Factory::Texttype>(set)) = text;
@@ -128,6 +132,7 @@ namespace Creator::Entity
             case Setter::WISDOM:
             case Setter::CHARISMA:
             case Setter::COSTBULK:
+            case Setter::STASHLB:
                 {
                 int tmp;
                 if (text && tinyxml2::XMLUtil::ToInt(text, &tmp))

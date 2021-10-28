@@ -17,7 +17,7 @@ namespace Creator::Entity
         Class_Feature,                   // DONE
         Spell,                           // DONE
         Race,                            // DONE
-        Magic_Item,                      // TODO: Implement into structure
+        Magic_Item,                      // DONE
         Sub_Race,                        // DONE
         Option,                          // DONE
         Armor,                           // DONE

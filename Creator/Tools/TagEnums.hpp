@@ -115,7 +115,12 @@ namespace Creator::Entity::Tags
         COSTCURRENCY,
         WEIGHTEXCLUDEENCUMBRANCE,
         COSTBULK,
-        DAMAGETYPE
+        DAMAGETYPE,
+        TYPEADDITION,
+        ATTUNEMENTADDITION,
+        STASHLB,
+        STASHWEIGHTLESS,
+        COSTOVERRIDE
     };
 
     // Get an enum value from string. templated using the enum class name
