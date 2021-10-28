@@ -12,7 +12,8 @@ namespace Creator::Entity
         using Booltype = bool* const;
         using Texttype = std::string* const;
         using Inttype = int* const;
-        using Settype = std::variant<Inttype, Booltype, Texttype>;
+        using Nametype = std::vector<std::string>* const;
+        using Settype = std::variant<Inttype, Booltype, Texttype, Nametype>;
         using Maptype = std::unordered_map<Tags::Setter, Settype>;
     }
     

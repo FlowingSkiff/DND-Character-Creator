@@ -35,11 +35,11 @@ namespace Creator::Entity
             case Setter::CURSED:
             case Setter::VALUABLE:
             case Setter::CORE:
-            {
-                bool tmp;
-                if (text && tinyxml2::XMLUtil::ToBool(text, &tmp))
-                    (*std::get<Factory::Booltype>(set)) = tmp;
-            }
+                {
+                    bool tmp;
+                    if (text && tinyxml2::XMLUtil::ToBool(text, &tmp))
+                        (*std::get<Factory::Booltype>(set)) = tmp;
+                }
                 break;
             case Setter::UNKNOWN:
             case Setter::SPELLCASTINGABILITY:
@@ -54,7 +54,6 @@ namespace Creator::Entity
             case Setter::TIME:
             case Setter::SCHOOL:
             case Setter::HEIGHT:
-            case Setter::NAMES:
             case Setter::VERSATILE:
             case Setter::CONTAINER:
             case Setter::ABBREVIATION:
@@ -110,10 +109,10 @@ namespace Creator::Entity
             case Setter::ACTION:
             case Setter::HEIGHTMODIFIER:
             case Setter::WEIGHTMODIFIER:
-            {
-                if (text)
-                    (*std::get<Factory::Texttype>(set)) = text;
-            }
+                {
+                    if (text)
+                        (*std::get<Factory::Texttype>(set)) = text;
+                }
                 break;
             case Setter::LEVEL:
             case Setter::RELOAD:
@@ -123,12 +122,22 @@ namespace Creator::Entity
             case Setter::CONSTITUTION:
             case Setter::WISDOM:
             case Setter::CHARISMA:
-            {
+                {
                 int tmp;
                 if (text && tinyxml2::XMLUtil::ToInt(text, &tmp))
                     (*std::get<Factory::Inttype>(set)) = tmp;
-            }
+                }
                 break;
+            case Setter::NAMES:
+                {
+                    if (text)
+                    {
+                        (*std::get<Factory::Nametype>(set)).push_back(text);
+                    }
+                }
+                break;
+            default:
+                LogError("ENUM issue, {} does not exist in Factory", magic_enum::enum_name(value));
         }
     }
 
@@ -148,7 +157,8 @@ namespace Creator::Entity
         }
         else
         {
-            LogWarn("Encountered bad set name: {}", name);
+            if (!SafeCompareString(name.data(), "names-format", CompareOpts::Default)) // Name formats should only be in a single format, some older formats have attributes which should be ignored
+                LogWarn("Encountered bad set name: {}", name);
         }
     }
 
@@ -165,17 +175,36 @@ namespace Creator::Entity
             if (SafeCompareString(node->Value(), "set", CompareOpts::Default))
             {
                 const std::string node_name = node->Attribute("name");
-                auto setname = Tags::EnumFromString<Tags::Setter>(node_name);
-                UpdateMapWithSetter(setname, map, node->GetText(), node_name);
-                auto att = node->FirstAttribute();
-                while (att)
+                if (!SafeCompareString(node_name, "names", CompareOpts::Default))
                 {
-                    if (!SafeCompareString(att->Name(), "name", CompareOpts::Default))
+                    auto setname = Tags::EnumFromString<Tags::Setter>(node_name);
+                    UpdateMapWithSetter(setname, map, node->GetText(), node_name);
+                    auto att = node->FirstAttribute();
+                    while (att)
                     {
-                        const auto attname = Tags::EnumFromString<Tags::Setter>(node_name + std::string(att->Name()));
-                        UpdateMapWithSetter(attname, map, att->Value(), node_name);
+                        if (!SafeCompareString(att->Name(), "name", CompareOpts::Default))
+                        {
+                            const auto attname = Tags::EnumFromString<Tags::Setter>(node_name + std::string(att->Name()));
+                            UpdateMapWithSetter(attname, map, att->Value(), node_name);
+                        }
+                        att = att->Next();
                     }
-                    att = att->Next();
+                }
+                else
+                {
+                    if (node->Attribute("type") && node->GetText())
+                    {
+                        const std::string type_with_text = std::string(node->Attribute("type")) + std::string(node->GetText());
+                        auto setname = Tags::EnumFromString<Tags::Setter>(node_name);
+                        UpdateMapWithSetter(setname, map, type_with_text.data(), node_name);
+                    }
+                    else
+                    {
+                        if (node->Attribute("type"))
+                            LogInfo("Encountered names type without text");
+                        else
+                            LogError("Encountered bad names withtout type attribute");
+                    }
                 }
             }
             else
