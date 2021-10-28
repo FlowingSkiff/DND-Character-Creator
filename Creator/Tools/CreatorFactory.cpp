@@ -35,6 +35,8 @@ namespace Creator::Entity
             case Setter::CURSED:
             case Setter::VALUABLE:
             case Setter::CORE:
+            case Setter::STACKABLE:
+            case Setter::WEIGHTEXCLUDEENCUMBRANCE:
                 {
                     bool tmp;
                     if (text && tinyxml2::XMLUtil::ToBool(text, &tmp))
@@ -59,7 +61,6 @@ namespace Creator::Entity
             case Setter::ABBREVIATION:
             case Setter::CHARGES:
             case Setter::DAMAGE:
-            case Setter::STACKABLE:
             case Setter::WEIGHT:
             case Setter::ARMOR:
             case Setter::AUTHOR:
@@ -110,6 +111,8 @@ namespace Creator::Entity
             case Setter::HEIGHTMODIFIER:
             case Setter::WEIGHTMODIFIER:
             case Setter::MULTICLASS_PROFICIENCIES:
+            case Setter::WEIGHTLB:
+            case Setter::COSTCURRENCY:
                 {
                     if (text)
                         (*std::get<Factory::Texttype>(set)) = text;
@@ -123,6 +126,7 @@ namespace Creator::Entity
             case Setter::CONSTITUTION:
             case Setter::WISDOM:
             case Setter::CHARISMA:
+            case Setter::COSTBULK:
                 {
                 int tmp;
                 if (text && tinyxml2::XMLUtil::ToInt(text, &tmp))

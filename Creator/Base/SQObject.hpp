@@ -591,6 +591,40 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
+    struct Item: public SQObject, public SheetDisplay
+    {
+        Item(int argc, char** argv, char** colz);
+        Item(tinyxml2::XMLElement* node);
+
+        bool is_stackable = false;
+        std::string category = "";
+        std::string weight_lb = "";
+        std::string weight = "";
+        std::string cost = "";
+        std::string cost_currency = "";
+        std::string rarity = "Common";
+        std::string keywords = "";
+        std::string set_type = "";
+        std::string slot = "";
+        std::string proficiency = "";
+        bool is_valuable = false;
+        std::string supports = "";
+        std::vector<RuleBase> rules;
+        std::string container = "";
+        bool exclude_encumbrance = false;
+        int bulk_buy = 1;
+        std::vector<std::string> extract_item_ids;
+        
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
+        // member map for reading from xml setter options
+        Factory::Maptype GetMemberMap() override;
+    };
+
     /**
      * @brief Create a New Object From Type object
      * 

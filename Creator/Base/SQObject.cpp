@@ -1759,6 +1759,108 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- Item --------------------
+
+    Item::Item(int argc, char** argv, char** colz): SQObject(Type::Item)
+    {
+        for (int i = 0; i < argc; ++i)
+        {
+            std::string col = colz[i];
+            if (SafeCompareString(col, "id"))
+                id = std::stoi(argv[i]);
+            else if (SafeCompareString(col, "name"))
+                name = argv[i];
+            else if (SafeCompareString(col, "description"))
+                description = argv[i];
+            else if (SafeCompareString(col, "short_description"))
+                short_description = argv[i];
+            else
+                LogWarn("Unexpected column value {} in Item {}", col, name);
+        }
+    }
+
+    Item::Item(tinyxml2::XMLElement* node): SQObject(Type::Item, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "extract"))
+            {
+                for (auto extract_child = child->FirstChildElement();
+                     extract_child; extract_child = extract_child->NextSiblingElement())
+                {
+                    extract_item_ids.emplace_back(extract_child->GetText());
+                }
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected Item child: {} for Item {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Item::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description},
+            {Setter::CATEGORY, &category},
+            {Setter::WEIGHT, &weight},
+            {Setter::WEIGHTLB, &weight_lb},
+            {Setter::COST, &cost},
+            {Setter::COSTCURRENCY, &cost_currency},
+            {Setter::STACKABLE, &is_stackable},
+            {Setter::RARITY, &rarity},
+            {Setter::TYPE, &set_type},
+            {Setter::KEYWORDS, &keywords},
+            {Setter::SLOT, &slot},
+            {Setter::PROFICIENCY, &proficiency},
+            {Setter::VALUABLE, &is_valuable},
+            {Setter::CONTAINER, &container},
+            {Setter::WEIGHTEXCLUDEENCUMBRANCE, &exclude_encumbrance},
+            {Setter::COSTBULK, &bulk_buy}
+        };
+    }
+
+    
+    std::string Item::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Item called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Item::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Item called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1805,7 +1907,7 @@ namespace Creator::Entity
                 return nullptr;
                 break;
             case Type::Item: 
-                return nullptr;
+                return new Item(argc, argv, colz);
                 break;
             case Type::Weapon: 
                 return nullptr;
@@ -2111,6 +2213,36 @@ namespace Creator::Entity
             << "multiclass_proficiencies: " << multiclass_proficiencies << '\n'
             << "multiclass_rules: " << multiclass_rules << '\n';
         os  << multiclass_rules;
+        return os;
+    }
+
+    std::ostream& Item::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << "is_stackable: " << is_stackable << '\n'
+            << "category: " << category << '\n'
+            << "weight_lb: " << weight_lb << '\n'
+            << "weight: " << weight << '\n'
+            << "cost: " << cost << '\n'
+            << "cost_currency: " << cost_currency << '\n'
+            << "rarity: " << rarity << '\n'
+            << "keywords: " << keywords << '\n'
+            << "set_type: " << set_type << '\n'
+            << "slot: " << slot << '\n'
+            << "proficiency: " << proficiency << '\n'
+            << "valuable: " << is_valuable << '\n'
+            << "supports: " << supports << '\n'
+            << "container: " << container << '\n'
+            << "exclude encumbrance: " << exclude_encumbrance << '\n'
+            << "bulk buy: " << bulk_buy << '\n';
+        os << rules;
+        if (extract_item_ids.size() > 0)
+        {
+            os << "Extracts: ---\n";
+            for (const auto& s : extract_item_ids)
+                os << s << '\n';
+        }
         return os;
     }
 }

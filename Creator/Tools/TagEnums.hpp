@@ -110,7 +110,11 @@ namespace Creator::Entity::Tags
         ACTION,
         HEIGHTMODIFIER,
         WEIGHTMODIFIER,
-        MULTICLASS_PROFICIENCIES
+        MULTICLASS_PROFICIENCIES,
+        WEIGHTLB,
+        COSTCURRENCY,
+        WEIGHTEXCLUDEENCUMBRANCE,
+        COSTBULK
     };
 
     // Get an enum value from string. templated using the enum class name

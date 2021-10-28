@@ -21,7 +21,7 @@ namespace Creator::Entity
         Sub_Race,                        // DONE
         Option,                          // DONE
         Armor,                           // TODO: Implement into structure
-        Item,                            // TODO: Implement into structure
+        Item,                            // DONE
         Weapon,                          // TODO: Implement into structure
         Class,                           // DONE
         Ability_Score_Improvement,       // DONE
