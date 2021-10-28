@@ -1761,22 +1761,9 @@ namespace Creator::Entity
 
     /// -------------------- Item --------------------
 
-    Item::Item(int argc, char** argv, char** colz): SQObject(Type::Item)
+    Item::Item(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Item)
     {
-        for (int i = 0; i < argc; ++i)
-        {
-            std::string col = colz[i];
-            if (SafeCompareString(col, "id"))
-                id = std::stoi(argv[i]);
-            else if (SafeCompareString(col, "name"))
-                name = argv[i];
-            else if (SafeCompareString(col, "description"))
-                description = argv[i];
-            else if (SafeCompareString(col, "short_description"))
-                short_description = argv[i];
-            else
-                LogWarn("Unexpected column value {} in Item {}", col, name);
-        }
+        LogError("Constructor for Item called but not implemented");
     }
 
     Item::Item(tinyxml2::XMLElement* node): SQObject(Type::Item, node)
@@ -1829,24 +1816,11 @@ namespace Creator::Entity
     Factory::Maptype Item::GetMemberMap()
     {
         using namespace Tags;
-        return {
-            {Setter::SHORT, &short_description},
-            {Setter::CATEGORY, &category},
-            {Setter::WEIGHT, &weight},
-            {Setter::WEIGHTLB, &weight_lb},
-            {Setter::COST, &cost},
-            {Setter::COSTCURRENCY, &cost_currency},
-            {Setter::STACKABLE, &is_stackable},
-            {Setter::RARITY, &rarity},
-            {Setter::TYPE, &set_type},
-            {Setter::KEYWORDS, &keywords},
-            {Setter::SLOT, &slot},
-            {Setter::PROFICIENCY, &proficiency},
-            {Setter::VALUABLE, &is_valuable},
+        Factory::Maptype tmp = {
             {Setter::CONTAINER, &container},
-            {Setter::WEIGHTEXCLUDEENCUMBRANCE, &exclude_encumbrance},
-            {Setter::COSTBULK, &bulk_buy}
+            {Setter::SHORT, &short_description}
         };
+        return ItemBase::ModifySetMap(tmp);
     }
 
     
@@ -1858,6 +1832,78 @@ namespace Creator::Entity
     std::string Item::GetWriteFormat() const
     {
         LogError("WriteFormat called for Item called but not implemented");
+        return "(name, description, short_description)";
+    }
+
+    /// -------------------- Weapon --------------------
+
+    Weapon::Weapon(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Weapon)
+    {
+        LogError("Constructor for Weapon called but not implemented");
+    }
+
+    Weapon::Weapon(tinyxml2::XMLElement* node): SQObject(Type::Weapon, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected Weapon child: {} for Weapon {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Weapon::GetMemberMap()
+    {
+        using namespace Tags;
+        Factory::Maptype tmp {
+            {Setter::SHORT, &short_description},
+            {Setter::DAMAGE, &damage},
+            {Setter::DAMAGETYPE, &damage_type},
+            {Setter::RANGE, &range},
+            {Setter::VERSATILE, &versatile},
+            {Setter::RELOAD, &reload}
+        };
+        return ItemBase::ModifySetMap(tmp);
+    }
+
+    
+    std::string Weapon::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Weapon called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Weapon::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Weapon called but not implemented");
         return "(name, description, short_description)";
     }
 
@@ -1910,7 +1956,7 @@ namespace Creator::Entity
                 return new Item(argc, argv, colz);
                 break;
             case Type::Weapon: 
-                return nullptr;
+                return new Weapon(argc, argv, colz);
                 break;
             case Type::Class: 
                 return new Class(argc, argv, colz);
@@ -1959,7 +2005,47 @@ namespace Creator::Entity
 
     /// -------------------- IO --------------------
 
-    
+    Factory::Maptype& ItemBase::ModifySetMap(Factory::Maptype& map)
+    {
+        using namespace Tags;
+        map.insert({
+            {Setter::CATEGORY, &category},
+            {Setter::WEIGHT, &weight},
+            {Setter::WEIGHTLB, &weight_lb},
+            {Setter::COST, &cost},
+            {Setter::COSTCURRENCY, &cost_currency},
+            {Setter::STACKABLE, &is_stackable},
+            {Setter::RARITY, &rarity},
+            {Setter::TYPE, &set_type},
+            {Setter::KEYWORDS, &keywords},
+            {Setter::SLOT, &slot},
+            {Setter::PROFICIENCY, &proficiency},
+            {Setter::VALUABLE, &is_valuable},
+            {Setter::WEIGHTEXCLUDEENCUMBRANCE, &exclude_encumbrance},
+            {Setter::COSTBULK, &bulk_buy}
+        });
+        return map;
+    }
+
+    std::ostream& ItemBase::WriteToStream(std::ostream& os) const
+    {
+        return os  << std::boolalpha
+            << "is_stackable: " << is_stackable << '\n'
+            << "slot: " << slot << '\n'
+            << "proficiency: " << proficiency << '\n'
+            << "weight_lb: " << weight_lb << '\n'
+            << "weight: " << weight << '\n'
+            << "cost: " << cost << '\n'
+            << "cost_currency: " << cost_currency << '\n'
+            << "rarity: " << rarity << '\n'
+            << "bulk buy: " << bulk_buy << '\n'
+            << "is valuable: " << is_valuable << '\n'
+            << "category: " << category << '\n'
+            << "keywords: " << keywords << '\n'
+            << "type: " << set_type << '\n'
+            << "supports: " << supports << '\n'
+            << "exclude encumbrance: " << exclude_encumbrance << '\n';
+    }
     
     std::ostream& Spell::WriteToStream(std::ostream& os) const
     {
@@ -2220,29 +2306,23 @@ namespace Creator::Entity
     {
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
-        os  << "is_stackable: " << is_stackable << '\n'
-            << "category: " << category << '\n'
-            << "weight_lb: " << weight_lb << '\n'
-            << "weight: " << weight << '\n'
-            << "cost: " << cost << '\n'
-            << "cost_currency: " << cost_currency << '\n'
-            << "rarity: " << rarity << '\n'
-            << "keywords: " << keywords << '\n'
-            << "set_type: " << set_type << '\n'
-            << "slot: " << slot << '\n'
-            << "proficiency: " << proficiency << '\n'
-            << "valuable: " << is_valuable << '\n'
-            << "supports: " << supports << '\n'
-            << "container: " << container << '\n'
-            << "exclude encumbrance: " << exclude_encumbrance << '\n'
-            << "bulk buy: " << bulk_buy << '\n';
-        os << rules;
+        ItemBase::WriteToStream(os);
+        os  << "container: " << container << '\n';
+        os  << rules;
         if (extract_item_ids.size() > 0)
         {
             os << "Extracts: ---\n";
             for (const auto& s : extract_item_ids)
                 os << s << '\n';
         }
+        return os;
+    }
+    std::ostream& Weapon::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        ItemBase::WriteToStream(os);
+        os << rules;
         return os;
     }
 }
