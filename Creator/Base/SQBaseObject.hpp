@@ -22,7 +22,7 @@ namespace Creator::Entity
         Option,                          // DONE
         Armor,                           // TODO: Implement into structure
         Item,                            // DONE
-        Weapon,                          // IN PROGRESS
+        Weapon,                          // DONE
         Class,                           // DONE
         Ability_Score_Improvement,       // DONE
         Rule,                            // DONE
