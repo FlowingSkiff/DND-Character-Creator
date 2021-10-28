@@ -1656,6 +1656,109 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- Class --------------------
+
+    Class::Class(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Class)
+    {
+        LogError("Constructor for Class called but not implemented");
+    }
+
+    Class::Class(tinyxml2::XMLElement* node): SQObject(Type::Class, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                const auto old_spellcasting_ability = spellcasting_ability;
+                const auto old_spellcasting_name = spellcasting_name; 
+                SetterFactory(GetMemberMap(), setter);
+                if (old_spellcasting_ability != spellcasting_ability ||
+                    old_spellcasting_name != spellcasting_name)
+                    is_spellcasting = true;
+            }
+            else if (SafeCompareString(child->Value(), "multiclass"))
+            {
+                multiclass_id = child->Attribute("id");
+                auto multiclass_child = child->FirstChildElement();
+                while (multiclass_child)
+                {
+                    if (SafeCompareString(multiclass_child->Value(), "rules"))
+                    {
+                        multiclass_rules = GenerateRules(multiclass_child->FirstChildElement());
+                    }
+                    else if (SafeCompareString(multiclass_child->Value(), "requirements"))
+                    {
+                        if (auto* tmp = multiclass_child->GetText())
+                            multiclass_requirements = tmp;
+                    }
+                    else if (SafeCompareString(multiclass_child->Value(), "prerequisite"))
+                    {
+                        if (auto* tmp = multiclass_child->GetText())
+                            multiclass_prerequisite = tmp;
+                    }
+                    else if (SafeCompareString(multiclass_child->Value(), "setters"))
+                    {
+                        auto setter = multiclass_child->FirstChildElement();
+                        SetterFactory(GetMemberMap(), setter);
+                    }
+                    multiclass_child = multiclass_child->NextSiblingElement();
+                }
+            }
+            else if (SafeCompareString(child->Value(), "spellcasting"))
+            {
+                SpellcastingBase::Construct(child);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected Class child: {} for Class {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Class::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description},
+            {Setter::SPELLCASTINGCLASS, &spellcasting_name},
+            {Setter::SPELLCASTINGABILITY, &spellcasting_ability},
+            {Setter::HD, &hd},
+            {Setter::SOURCEURL, &source_url},
+            {Setter::MULTICLASS_PROFICIENCIES, &multiclass_proficiencies}
+        };
+    }
+
+    
+    std::string Class::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Class called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Class::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Class called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -1708,7 +1811,7 @@ namespace Creator::Entity
                 return nullptr;
                 break;
             case Type::Class: 
-                return nullptr;
+                return new Class(argc, argv, colz);
                 break;
             case Type::Ability_Score_Improvement: 
                 return new AbilityScoreImprovement(argc, argv, colz);
@@ -1991,6 +2094,23 @@ namespace Creator::Entity
         for (const auto& p : names)
             os << p << '\n';
         os  << rules;
+        return os;
+    }
+    std::ostream& Class::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        SpellcastingBase::WriteToStream(os);
+        os  << "hd: " << hd << '\n'
+            << "source url: " << source_url << '\n';
+        os  << rules;
+        os  << "---Muliclass---\n"
+            << "multiclass_id: " << multiclass_id << '\n'
+            << "multiclass_prerequisite: " << multiclass_prerequisite << '\n'
+            << "multiclass_requirements: " << multiclass_requirements << '\n'
+            << "multiclass_proficiencies: " << multiclass_proficiencies << '\n'
+            << "multiclass_rules: " << multiclass_rules << '\n';
+        os  << multiclass_rules;
         return os;
     }
 }

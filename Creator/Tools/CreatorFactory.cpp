@@ -109,6 +109,7 @@ namespace Creator::Entity
             case Setter::ACTION:
             case Setter::HEIGHTMODIFIER:
             case Setter::WEIGHTMODIFIER:
+            case Setter::MULTICLASS_PROFICIENCIES:
                 {
                     if (text)
                         (*std::get<Factory::Texttype>(set)) = text;

@@ -49,6 +49,7 @@ int main(int, char**)
     std::vector<SubRace> subRaces;
     std::vector<Archetype> archetypes;
     std::vector<Race> races;
+    std::vector<Class> classes;
     for (const auto& p : paths)
     {
         XMLDocument xmlDoc;
@@ -70,10 +71,10 @@ int main(int, char**)
         // RecursiveGetSources(sources, firstElement);
         // RecursiveFindAllRuleAttNames(allRuleAttNames, firstElement);
         // RecursiveGetFeatFeatures(featFeatures, firstElement);
-        RecursiveGetElementsByType(races, firstElement, "Race");
+        RecursiveGetElementsByType(classes, firstElement, "Class");
     }
-    std::ofstream outtmp("logs/races.txt");
-    for (const auto& f: races)
+    std::ofstream outtmp("logs/classes.txt");
+    for (const auto& f: classes)
     {
         outtmp << f << '\n';
     }

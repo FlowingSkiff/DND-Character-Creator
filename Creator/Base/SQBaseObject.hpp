@@ -23,7 +23,7 @@ namespace Creator::Entity
         Armor,                           // TODO: Implement into structure
         Item,                            // TODO: Implement into structure
         Weapon,                          // TODO: Implement into structure
-        Class,                           // TODO: Implement into structure
+        Class,                           // DONE
         Ability_Score_Improvement,       // DONE
         Rule,                            // DONE
         Source,                          // DONE

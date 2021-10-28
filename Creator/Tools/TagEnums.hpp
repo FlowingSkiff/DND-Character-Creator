@@ -109,7 +109,8 @@ namespace Creator::Entity::Tags
         AUTHORURL,
         ACTION,
         HEIGHTMODIFIER,
-        WEIGHTMODIFIER
+        WEIGHTMODIFIER,
+        MULTICLASS_PROFICIENCIES
     };
 
     // Get an enum value from string. templated using the enum class name
