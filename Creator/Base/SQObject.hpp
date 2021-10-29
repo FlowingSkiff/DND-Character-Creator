@@ -700,6 +700,7 @@ namespace Creator::Entity
     {
         std::string id;
         std::string supports;
+        std::vector<RuleBase> rules;
 
         Append(int argc, char** argv, char** colz);
         Append(tinyxml2::XMLElement* node);

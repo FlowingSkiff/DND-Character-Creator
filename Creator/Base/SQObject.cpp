@@ -2118,6 +2118,10 @@ namespace Creator::Entity
                 if (auto* tmp = child->GetText())
                     supports = tmp;
             }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
             else
             {
                 LogWarn("Unexpected Append child: {} for Append", child->Value());

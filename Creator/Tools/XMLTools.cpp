@@ -276,7 +276,9 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
         const auto type_name_safe = [&](){
             if (!node->Attribute("type"))
             {
-                if (node->Attribute("name"))
+                if (SafeCompareString(node->Name(), "append"))
+                    return std::string("Append");
+                else if (node->Attribute("name"))
                     LogError("Could not find type property for element {}", node->Attribute("name"));
                 else
                     LogWarn("Encountered {} with no name or type", node->Name());
@@ -370,6 +372,9 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
             case Creator::Entity::Type::Racial_Trait:
                 list.emplace_back(new RacialTrait(node));
                 break;
+            case Creator::Entity::Type::Append:
+                list.emplace_back(new Append(node));
+                break;
             default:
                 LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
                 list.emplace_back(new SQObject(Type::General, node));
@@ -378,29 +383,19 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
         }
         else
         {
-            if (node->Value())
+            if (node->Attribute("type"))
             {
-                if (SafeCompareString(node->Value(), "append"))
-                {
-                    list.emplace_back(new Creator::Entity::Append(node));
-                }
+                if (node->Attribute("name"))
+                    LogError("Could not load element of type {} for element {} \"{}\"", node->Attribute("type"), node->Attribute("name"), node->Value());
                 else
-                {
-                    if (node->Attribute("type"))
-                    {
-                        if (node->Attribute("name"))
-                            LogError("Could not load element of type {} for element {} \"{}\"", node->Attribute("type"), node->Attribute("name"), node->Value());
-                        else
-                            LogError("Could not load element of type {} for element without name \"{}\"", node->Attribute("type"), node->Value());
-                    }
-                    else
-                    {
-                        if (node->Attribute("name"))
-                            LogError("Could not load element of type undefined for element {} \"{}\"", node->Attribute("name"), node->Value());
-                        else
-                            LogError("Could not load element of type undefined for element without name \"{}\"", node->Value());
-                    }
-                }
+                    LogError("Could not load element of type {} for element without name \"{}\"", node->Attribute("type"), node->Value());
+            }
+            else
+            {
+                if (node->Attribute("name"))
+                    LogError("Could not load element of type undefined for element {} \"{}\"", node->Attribute("name"), node->Value());
+                else
+                    LogError("Could not load element of type undefined for element without name \"{}\"", node->Value());
             }
         }
     }
