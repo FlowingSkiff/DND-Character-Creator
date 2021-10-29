@@ -2317,6 +2317,59 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- WeaponProperty --------------------
+
+    WeaponProperty::WeaponProperty(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Weapon_Property)
+    {
+        LogError("Constructor for WeaponProperty called but not implemented");
+    }
+
+    WeaponProperty::WeaponProperty(tinyxml2::XMLElement* node): SQObject(Type::Weapon_Property, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else
+            {
+                LogWarn("Unexpected WeaponProperty child: {} for WeaponProperty {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype WeaponProperty::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string WeaponProperty::GetReadFormat() const
+    {
+        LogError("ReadFormat called for WeaponProperty called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string WeaponProperty::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for WeaponProperty called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2761,6 +2814,11 @@ namespace Creator::Entity
         return os;
     }
     std::ostream& Support::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        return os;
+    }
+    std::ostream& WeaponProperty::WriteToStream(std::ostream& os) const
     {
         SQObject::WriteToStream(os);
         return os;

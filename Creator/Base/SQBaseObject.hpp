@@ -41,7 +41,7 @@ namespace Creator::Entity
         Race_Variant,                    // DONE
         Racial_Trait,                    // DONE
         Support,                         // DONE
-        Weapon_Property,
+        Weapon_Property,                 // DONE
         Proficiency,
         Background_Variant,
         Grants,
@@ -49,7 +49,7 @@ namespace Creator::Entity
         Dragonmark,
         Condition,
         Magic_School,
-        Append
+        Append                           // DONE
     };
 
     
