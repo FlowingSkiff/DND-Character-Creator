@@ -71,6 +71,11 @@ namespace Creator::Entity
                     classSupport = (tmp.size() > 0) ? tmp : "All";
                 }
             }
+            else if (SafeCompareString(child->Value(), "requirements"))
+            {
+                if (auto* tmp = child->GetText())
+                    requirements = tmp;
+            }
             else
             {
                 LogWarn("Unexpected spell child: {} for spell {}", child->Value(), node->Attribute("name"));
@@ -113,7 +118,9 @@ namespace Creator::Entity
             {Setter::SCHOOL,                &school},
             {Setter::LEVEL,                 &level},
             {Setter::KEYWORDS,              &keywords},
-            {Setter::SHORT,                 &short_description}
+            {Setter::SHORT,                 &short_description},
+            {Setter::SCHOOLADDITION,        &school_addition},
+            {Setter::HASSOMATICCOMPONENTADDITION, &has_somantic_component_addition}
         };
     }
 
@@ -442,6 +449,11 @@ namespace Creator::Entity
             if (SafeCompareString(child->Value(), "description"))
             {
                 description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement();
+                SetterFactory(GetMemberMap(), setter);
             }
             else
             {
@@ -2084,6 +2096,47 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- Append --------------------
+
+    Append::Append(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Append)
+    {
+        LogError("Constructor for Append called but not implemented");
+    }
+
+    Append::Append(tinyxml2::XMLElement* node): SQObject(Type::Append)
+    {
+        auto att = node->Attribute("id");
+        if (att)
+            id = att;
+        else
+            LogError("Expected some id for append");
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected Append child: {} for Append", child->Value());
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    std::string Append::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Append called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Append::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Append called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2508,5 +2561,9 @@ namespace Creator::Entity
             << "supports: " << supports << '\n';
         os << rules;
         return os;
+    }
+    std::ostream& Append::WriteToStream(std::ostream& os) const
+    {
+        return os << "--Append: " << id << " to " << supports << "\n";
     }
 }

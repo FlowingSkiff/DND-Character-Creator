@@ -45,6 +45,9 @@ namespace Creator::Entity
         int level = 0;
         std::string keywords = "";
         std::string classSupport = "All";
+        std::string requirements = "";
+        std::string school_addition = "";
+        std::string has_somantic_component_addition = "";
 
         // Read format for use with sqlite3 db reading
         std::string GetReadFormat() const override;
@@ -691,6 +694,22 @@ namespace Creator::Entity
         std::ostream& WriteToStream(std::ostream& os) const override;
         // member map for reading from xml setter options
         Factory::Maptype GetMemberMap() override;
+    };
+
+    struct Append: public SQObject
+    {
+        std::string id;
+        std::string supports;
+
+        Append(int argc, char** argv, char** colz);
+        Append(tinyxml2::XMLElement* node);
+
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
     };
 
     /**
