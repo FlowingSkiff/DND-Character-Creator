@@ -2202,6 +2202,67 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- CompanionReaction --------------------
+
+    CompanionReaction::CompanionReaction(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Companion_Reaction)
+    {
+        LogError("Constructor for CompanionReaction called but not implemented");
+    }
+
+    CompanionReaction::CompanionReaction(tinyxml2::XMLElement* node): SQObject(Type::Companion_Reaction, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected CompanionReaction child: {} for CompanionReaction {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype CompanionReaction::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string CompanionReaction::GetReadFormat() const
+    {
+        LogError("ReadFormat called for CompanionReaction called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string CompanionReaction::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for CompanionReaction called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2632,6 +2693,13 @@ namespace Creator::Entity
         return os << "--Append: " << id << " to " << supports << "\n";
     }
     std::ostream& CompanionTrait::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << rules;
+        return os;
+    }
+    std::ostream& CompanionReaction::WriteToStream(std::ostream& os) const
     {
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);

@@ -31,7 +31,7 @@ namespace Creator::Entity
         Companion,                       // DONE
         Companion_Action,                // DONE
         Companion_Trait,                 // DONE
-        Companion_Reaction,              // TODO
+        Companion_Reaction,              // DONE
         Background,                      // DONE
         Background_Feature,              // DONE
         Deity,                           // DONE

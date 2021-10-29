@@ -378,6 +378,9 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
             case Creator::Entity::Type::Companion_Trait:
                 list.emplace_back(new CompanionTrait(node));
                 break;
+            case Creator::Entity::Type::Companion_Reaction:
+                list.emplace_back(new CompanionReaction(node));
+                break;
             default:
                 LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
                 list.emplace_back(new SQObject(Type::General, node));
