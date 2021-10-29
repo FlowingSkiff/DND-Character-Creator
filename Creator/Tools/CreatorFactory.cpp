@@ -118,6 +118,8 @@ namespace Creator::Entity
             case Setter::DAMAGETYPE:
             case Setter::TYPEADDITION:
             case Setter::ATTUNEMENTADDITION:
+            case Setter::SCHOOLADDITION:
+            case Setter::HASSOMATICCOMPONENTADDITION:
                 {
                     if (text)
                         (*std::get<Factory::Texttype>(set)) = text;
