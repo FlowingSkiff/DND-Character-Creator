@@ -42,7 +42,7 @@ namespace Creator::Entity
             << "short_description: " << short_description << '\n'
             << "source: " << source << '\n'
             << "external_id: " << external_id << '\n'
-            << "type: " << static_cast<int>(type) << '\n'
+            << "type: " << magic_enum::enum_name<Type>(type) << '\n'
             << "compendium display: " << display_in_compendium << '\n';
         return os;
     }
