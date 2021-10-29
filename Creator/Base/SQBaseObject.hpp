@@ -30,6 +30,8 @@ namespace Creator::Entity
         Language,                        // DONE
         Companion,                       // DONE
         Companion_Action,                // DONE
+        Companion_Trait,                 // TODO
+        Companion_Reaction,              // TODO
         Background,                      // DONE
         Background_Feature,              // DONE
         Deity,                           // DONE
@@ -37,7 +39,17 @@ namespace Creator::Entity
         Feat_Feature,                    // DONE
         Information,                     // DONE
         Race_Variant,                    // DONE
-        Racial_Trait                     // DONE
+        Racial_Trait,                    // DONE
+        Support,
+        Weapon_Property,
+        Proficiency,
+        Background_Variant,
+        Grants,
+        Internal,
+        Dragonmark,
+        Condition,
+        Magic_School,
+        Append
     };
 
     
