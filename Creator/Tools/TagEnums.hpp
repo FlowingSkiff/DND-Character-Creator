@@ -120,7 +120,9 @@ namespace Creator::Entity::Tags
         ATTUNEMENTADDITION,
         STASHLB,
         STASHWEIGHTLESS,
-        COSTOVERRIDE
+        COSTOVERRIDE,
+        SCHOOLADDITION,
+        HASSOMATICCOMPONENTADDITION
     };
 
     // Get an enum value from string. templated using the enum class name
