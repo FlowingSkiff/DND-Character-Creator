@@ -54,6 +54,7 @@ int main(int, char**)
     std::vector<Weapon> weaspons;
     std::vector<Armor> armors;
     std::vector<MagicItem> magicItems;
+    std::vector<std::shared_ptr<SQObject>> allElements;
     for (const auto& p : paths)
     {
         XMLDocument xmlDoc;
@@ -75,11 +76,12 @@ int main(int, char**)
         // RecursiveGetSources(sources, firstElement);
         // RecursiveFindAllRuleAttNames(allRuleAttNames, firstElement);
         // RecursiveGetFeatFeatures(featFeatures, firstElement);
-        RecursiveGetElementsByType(magicItems, firstElement, "Magic Item");
+        // RecursiveGetElementsByType(magicItems, firstElement, "Magic Item");
+        GetAllElements(allElements, firstElement);
     }
-    std::ofstream outtmp("logs/magicItems.txt");
-    for (const auto& f: magicItems)
+    std::ofstream outtmp("logs/allElements.txt");
+    for (const auto& f: allElements)
     {
-        outtmp << f << '\n';
+        outtmp << *f << '\n';
     }
 }

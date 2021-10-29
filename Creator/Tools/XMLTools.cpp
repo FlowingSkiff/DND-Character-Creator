@@ -1,5 +1,5 @@
 #include "XMLTools.hpp"
-
+#include "LoggingTools.hpp"
 void Xmlelement::InsertAttribute(const std::string& name, const std::string& val)
 {
     m_attributes[name].insert(val);
@@ -265,5 +265,143 @@ void RecursiveGetFeatFeatures(std::vector<Creator::Entity::FeatFeature>& feature
             }
         }
         node = node->NextSiblingElement();
+    }
+}
+
+void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& list,
+                    tinyxml2::XMLElement* node)
+{
+    for (; node; node = node->NextSiblingElement())
+    {
+        const auto type_name_safe = [&](){
+            if (!node->Attribute("type"))
+            {
+                if (node->Attribute("name"))
+                    LogError("Could not find type property for element {}", node->Attribute("name"));
+                else
+                    LogWarn("Encountered {} with no name or type", node->Name());
+                return std::string();
+            }
+            std::string tmp = node->Attribute("type");
+            InplaceUnderscoreWhitespace(tmp);
+            return tmp;
+        }();
+        const auto& type = magic_enum::enum_cast<Creator::Entity::Type>(type_name_safe);
+        if (type.has_value())
+        {
+            using namespace Creator::Entity;
+            switch (type.value())
+            {
+            case Creator::Entity::Type::Archetype_Feature:
+                list.emplace_back(new ArchetypeFeature(node));
+                break;
+            case Creator::Entity::Type::Archetype:
+                list.emplace_back(new Archetype(node));
+                break;
+            case Creator::Entity::Type::Class_Feature:
+                list.emplace_back(new ClassFeature(node));
+                break;
+            case Creator::Entity::Type::Spell:
+                list.emplace_back(new Spell(node));
+                break;
+            case Creator::Entity::Type::Race:
+                list.emplace_back(new Race(node));
+                break;
+            case Creator::Entity::Type::Magic_Item:
+                list.emplace_back(new MagicItem(node));
+                break;
+            case Creator::Entity::Type::Sub_Race:
+                list.emplace_back(new SubRace(node));
+                break;
+            case Creator::Entity::Type::Option:
+                list.emplace_back(new Option(node));
+                break;
+            case Creator::Entity::Type::Armor:
+                list.emplace_back(new Armor(node));
+                break;
+            case Creator::Entity::Type::Item:
+                list.emplace_back(new Item(node));
+                break;
+            case Creator::Entity::Type::Weapon:
+                list.emplace_back(new Weapon(node));
+                break;
+            case Creator::Entity::Type::Class:
+                list.emplace_back(new Class(node));
+                break;
+            case Creator::Entity::Type::Ability_Score_Improvement:
+                list.emplace_back(new AbilityScoreImprovement(node));
+                break;
+            case Creator::Entity::Type::Rule:
+                list.emplace_back(new Rule(node));
+                break;
+            case Creator::Entity::Type::Source:
+                list.emplace_back(new Source(node));
+                break;
+            case Creator::Entity::Type::Language:
+                list.emplace_back(new Language(node));
+                break;
+            case Creator::Entity::Type::Companion:
+                list.emplace_back(new Companion(node));
+                break;
+            case Creator::Entity::Type::Companion_Action:
+                list.emplace_back(new CompanionAction(node));
+                break;
+            case Creator::Entity::Type::Background:
+                list.emplace_back(new Background(node));
+                break;
+            case Creator::Entity::Type::Background_Feature:
+                list.emplace_back(new BackgroundFeature(node));
+                break;
+            case Creator::Entity::Type::Deity:
+                list.emplace_back(new Deity(node));
+                break;
+            case Creator::Entity::Type::Feat:
+                list.emplace_back(new Feat(node));
+                break;
+            case Creator::Entity::Type::Feat_Feature:
+                list.emplace_back(new FeatFeature(node));
+                break;
+            case Creator::Entity::Type::Information:
+                list.emplace_back(new Information(node));
+                break;
+            case Creator::Entity::Type::Race_Variant:
+                list.emplace_back(new RaceVariant(node));
+                break;
+            case Creator::Entity::Type::Racial_Trait:
+                list.emplace_back(new RacialTrait(node));
+                break;
+            default:
+                LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
+                list.emplace_back(new SQObject(Type::General, node));
+                break;
+            }
+        }
+        else
+        {
+            if (node->Value())
+            {
+                if (SafeCompareString(node->Value(), "append"))
+                {
+                    list.emplace_back(new Creator::Entity::Append(node));
+                }
+                else
+                {
+                    if (node->Attribute("type"))
+                    {
+                        if (node->Attribute("name"))
+                            LogError("Could not load element of type {} for element {} \"{}\"", node->Attribute("type"), node->Attribute("name"), node->Value());
+                        else
+                            LogError("Could not load element of type {} for element without name \"{}\"", node->Attribute("type"), node->Value());
+                    }
+                    else
+                    {
+                        if (node->Attribute("name"))
+                            LogError("Could not load element of type undefined for element {} \"{}\"", node->Attribute("name"), node->Value());
+                        else
+                            LogError("Could not load element of type undefined for element without name \"{}\"", node->Value());
+                    }
+                }
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <memory>
 #include "tinyxml2.h"
 #include "StringTools.hpp"
 #include "SQObject.hpp"
@@ -75,3 +76,6 @@ void RecursiveGetElementsByType(std::vector<T>& sources, tinyxml2::XMLElement* n
         node = node->NextSiblingElement();
     }
 }
+
+void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& list,
+                    tinyxml2::XMLElement* node);
