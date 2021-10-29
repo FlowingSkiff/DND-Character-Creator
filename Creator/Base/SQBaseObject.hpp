@@ -42,7 +42,7 @@ namespace Creator::Entity
         Racial_Trait,                    // DONE
         Support,                         // DONE
         Weapon_Property,                 // DONE
-        Proficiency,
+        Proficiency,                     // DONE
         Background_Variant,
         Grants,
         Internal,
