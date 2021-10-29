@@ -2141,6 +2141,67 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- CompanionTrait --------------------
+
+    CompanionTrait::CompanionTrait(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Companion_Trait)
+    {
+        LogError("Constructor for CompanionTrait called but not implemented");
+    }
+
+    CompanionTrait::CompanionTrait(tinyxml2::XMLElement* node): SQObject(Type::Companion_Trait, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected CompanionTrait child: {} for CompanionTrait {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype CompanionTrait::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string CompanionTrait::GetReadFormat() const
+    {
+        LogError("ReadFormat called for CompanionTrait called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string CompanionTrait::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for CompanionTrait called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2569,5 +2630,12 @@ namespace Creator::Entity
     std::ostream& Append::WriteToStream(std::ostream& os) const
     {
         return os << "--Append: " << id << " to " << supports << "\n";
+    }
+    std::ostream& CompanionTrait::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << rules;
+        return os;
     }
 }

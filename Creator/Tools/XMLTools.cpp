@@ -375,6 +375,9 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
             case Creator::Entity::Type::Append:
                 list.emplace_back(new Append(node));
                 break;
+            case Creator::Entity::Type::Companion_Trait:
+                list.emplace_back(new CompanionTrait(node));
+                break;
             default:
                 LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
                 list.emplace_back(new SQObject(Type::General, node));
