@@ -40,7 +40,7 @@ namespace Creator::Entity
         Information,                     // DONE
         Race_Variant,                    // DONE
         Racial_Trait,                    // DONE
-        Support,
+        Support,                         // DONE
         Weapon_Property,
         Proficiency,
         Background_Variant,

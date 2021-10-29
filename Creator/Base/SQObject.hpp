@@ -747,6 +747,20 @@ namespace Creator::Entity
         Factory::Maptype GetMemberMap() override;
     };
 
+    struct Support: public SQObject
+    {
+        Support(int argc, char** argv, char** colz);
+        Support(tinyxml2::XMLElement* node);
+        // Read format for use with sqlite3 db reading
+        std::string GetReadFormat() const override;
+        // writing format for sqlite3 insert
+        std::string GetWriteFormat() const override;
+        // output writing to stream
+        std::ostream& WriteToStream(std::ostream& os) const override;
+        // member map for reading from xml setter options
+        Factory::Maptype GetMemberMap() override;
+    };
+
     /**
      * @brief Create a New Object From Type object
      * 

@@ -2263,6 +2263,60 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+
+    /// -------------------- Support --------------------
+
+    Support::Support(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Support)
+    {
+        LogError("Constructor for Support called but not implemented");
+    }
+
+    Support::Support(tinyxml2::XMLElement* node): SQObject(Type::Support, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else
+            {
+                LogWarn("Unexpected Support child: {} for Support {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Support::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string Support::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Support called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Support::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Support called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2704,6 +2758,11 @@ namespace Creator::Entity
         SQObject::WriteToStream(os);
         SheetDisplay::WriteToStream(os);
         os  << rules;
+        return os;
+    }
+    std::ostream& Support::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
         return os;
     }
 }
