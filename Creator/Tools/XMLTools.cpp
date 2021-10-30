@@ -268,6 +268,287 @@ void RecursiveGetFeatFeatures(std::vector<Creator::Entity::FeatFeature>& feature
     }
 }
 
+void GetAllElements(std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>>& list,
+                    tinyxml2::XMLElement* node)
+{
+    for (; node; node = node->NextSiblingElement())
+    {
+        const auto type_name_safe = [&](){
+            if (!node->Attribute("type"))
+            {
+                if (SafeCompareString(node->Name(), "append"))
+                    return std::string("Append");
+                else if (node->Attribute("name"))
+                    LogError("Could not find type property for element {}", node->Attribute("name"));
+                else
+                    LogWarn("Encountered {} with no name or type", node->Name());
+                return std::string();
+            }
+            std::string tmp = node->Attribute("type");
+            InplaceUnderscoreWhitespace(tmp);
+            return tmp;
+        }();
+        const auto& type = magic_enum::enum_cast<Creator::Entity::Type>(type_name_safe);
+        if (type.has_value())
+        {
+            using namespace Creator::Entity;
+            switch (type.value())
+            {
+            case Creator::Entity::Type::Archetype_Feature:
+            {
+                auto tmp = std::make_shared<SQObject>(ArchetypeFeature(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Archetype:
+            {
+                auto tmp = std::make_shared<SQObject>(Archetype(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Class_Feature:
+            {
+                auto tmp = std::make_shared<SQObject>(ClassFeature(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Spell:
+            {
+                auto tmp = std::make_shared<SQObject>(Spell(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Race:
+            {
+                auto tmp = std::make_shared<SQObject>(Race(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Magic_Item:
+            {
+                auto tmp = std::make_shared<SQObject>(MagicItem(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Sub_Race:
+            {
+                auto tmp = std::make_shared<SQObject>(SubRace(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Option:
+            {
+                auto tmp = std::make_shared<SQObject>(Option(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Armor:
+            {
+                auto tmp = std::make_shared<SQObject>(Armor(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Item:
+            {
+                auto tmp = std::make_shared<SQObject>(Item(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Weapon:
+            {
+                auto tmp = std::make_shared<SQObject>(Weapon(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Class:
+            {
+                auto tmp = std::make_shared<SQObject>(Class(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Ability_Score_Improvement:
+            {
+                auto tmp = std::make_shared<SQObject>(AbilityScoreImprovement(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Rule:
+            {
+                auto tmp = std::make_shared<SQObject>(Rule(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Source:
+            {
+                auto tmp = std::make_shared<SQObject>(Source(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Language:
+            {
+                auto tmp = std::make_shared<SQObject>(Language(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Companion:
+            {
+                auto tmp = std::make_shared<SQObject>(Companion(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Companion_Action:
+            {
+                auto tmp = std::make_shared<SQObject>(CompanionAction(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Background:
+            {
+                auto tmp = std::make_shared<SQObject>(Background(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Background_Feature:
+            {
+                auto tmp = std::make_shared<SQObject>(BackgroundFeature(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Deity:
+            {
+                auto tmp = std::make_shared<SQObject>(Deity(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Feat:
+            {
+                auto tmp = std::make_shared<SQObject>(Feat(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Feat_Feature:
+            {
+                auto tmp = std::make_shared<SQObject>(FeatFeature(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Information:
+            {
+                auto tmp = std::make_shared<SQObject>(Information(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Race_Variant:
+            {
+                auto tmp = std::make_shared<SQObject>(RaceVariant(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Racial_Trait:
+            {
+                auto tmp = std::make_shared<SQObject>(RacialTrait(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Append:
+            {
+                auto tmp = std::make_shared<SQObject>(Append(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Companion_Trait:
+            {
+                auto tmp = std::make_shared<SQObject>(CompanionTrait(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Companion_Reaction:
+            {
+                auto tmp = std::make_shared<SQObject>(CompanionReaction(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Support:
+            {
+                auto tmp = std::make_shared<SQObject>(Support(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Weapon_Property:
+            {
+                auto tmp = std::make_shared<SQObject>(WeaponProperty(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Proficiency:
+            {
+                auto tmp = std::make_shared<SQObject>(Proficiency(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Background_Variant:
+            {
+                auto tmp = std::make_shared<SQObject>(BackgroundVariant(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Grants:
+            {
+                auto tmp = std::make_shared<SQObject>(Grants(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Internal:
+            {
+                auto tmp = std::make_shared<SQObject>(Internal(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Dragonmark:
+            {
+                auto tmp = std::make_shared<SQObject>(Dragonmark(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Magic_School:
+            {
+                auto tmp = std::make_shared<SQObject>(MagicSchool(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            case Creator::Entity::Type::Condition:
+            {
+                auto tmp = std::make_shared<SQObject>(Condition(node));
+                list[tmp->external_id] = std::move(tmp);
+            }
+                break;
+            default:
+                LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
+                auto tmp = std::make_shared<SQObject>(SQObject(Type::General, node));
+                list[tmp->external_id] = std::move(tmp);
+                break;
+            }
+        }
+        else
+        {
+            if (node->Attribute("type"))
+            {
+                if (node->Attribute("name"))
+                    LogError("Could not load element of type {} for element {} \"{}\"", node->Attribute("type"), node->Attribute("name"), node->Value());
+                else
+                    LogError("Could not load element of type {} for element without name \"{}\"", node->Attribute("type"), node->Value());
+            }
+            else
+            {
+                if (node->Attribute("name"))
+                    LogError("Could not load element of type undefined for element {} \"{}\"", node->Attribute("name"), node->Value());
+                else
+                    LogError("Could not load element of type undefined for element without name \"{}\"", node->Value());
+            }
+        }
+    }
+}
+
 void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& list,
                     tinyxml2::XMLElement* node)
 {

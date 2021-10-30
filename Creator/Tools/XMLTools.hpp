@@ -60,6 +60,9 @@ void RecursiveFindAllSetterNames(std::unordered_set<std::string>& setNames,
 void RecursiveFindAllRuleAttNames(std::unordered_map<std::string, std::unordered_set<std::string>>& ruleNamesWithAtts,
                                  tinyxml2::XMLElement* node);
 
+void GetAllElements(std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>>& list,
+                    tinyxml2::XMLElement* node);
+
 // Build all spell xml sqobjects
 template<typename T, typename = typename std::enable_if<std::is_base_of<Creator::Entity::SQObject, T>::value>::type>
 void RecursiveGetElementsByType(std::vector<T>& sources, tinyxml2::XMLElement* node, const std::string& val)
