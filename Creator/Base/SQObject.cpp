@@ -2679,6 +2679,117 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- MagicSchool --------------------
+
+    MagicSchool::MagicSchool(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Magic_School)
+    {
+        LogError("Constructor for BackgroundVariant called but not implemented");
+    }
+
+    MagicSchool::MagicSchool(tinyxml2::XMLElement* node): SQObject(Type::Magic_School, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else
+            {
+                LogWarn("Unexpected MagicSchool child: {} for MagicSchool {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype MagicSchool::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string MagicSchool::GetReadFormat() const
+    {
+        LogError("ReadFormat called for MagicSchool called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string MagicSchool::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for MagicSchool called but not implemented");
+        return "(name, description, short_description)";
+    }
+
+    /// -------------------- Condition --------------------
+
+    Condition::Condition(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Condition)
+    {
+        LogError("Constructor for BackgroundVariant called but not implemented");
+    }
+
+    Condition::Condition(tinyxml2::XMLElement* node): SQObject(Type::Condition, node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else
+            {
+                LogWarn("Unexpected Condition child: {} for Condition {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype Condition::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string Condition::GetReadFormat() const
+    {
+        LogError("ReadFormat called for Condition called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string Condition::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for Condition called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -3165,6 +3276,16 @@ namespace Creator::Entity
     {
         SQObject::WriteToStream(os);
         os << rules;
+        return os;
+    }
+    std::ostream& MagicSchool::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        return os;
+    }
+    std::ostream& Condition::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
         return os;
     }
 }

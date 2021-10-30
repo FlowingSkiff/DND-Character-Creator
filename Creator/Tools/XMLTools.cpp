@@ -402,6 +402,12 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
             case Creator::Entity::Type::Dragonmark:
                 list.emplace_back(new Dragonmark(node));
                 break;
+            case Creator::Entity::Type::Magic_School:
+                list.emplace_back(new MagicSchool(node));
+                break;
+            case Creator::Entity::Type::Condition:
+                list.emplace_back(new Condition(node));
+                break;
             default:
                 LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
                 list.emplace_back(new SQObject(Type::General, node));

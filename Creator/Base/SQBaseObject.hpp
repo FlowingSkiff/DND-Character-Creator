@@ -47,8 +47,8 @@ namespace Creator::Entity
         Grants,                          // DONE
         Internal,                        // DONE
         Dragonmark,                      // DONE
-        Condition,
-        Magic_School,
+        Condition,                       // DONE
+        Magic_School,                    // DONE
         Append                           // DONE
     };
 
