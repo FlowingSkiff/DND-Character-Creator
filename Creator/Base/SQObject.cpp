@@ -2107,7 +2107,7 @@ namespace Creator::Entity
     {
         auto att = node->Attribute("id");
         if (att)
-            id = att;
+            external_id = att;
         else
             LogError("Expected some id for append");
         auto child = node->FirstChildElement();
