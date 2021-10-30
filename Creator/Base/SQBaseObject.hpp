@@ -44,7 +44,7 @@ namespace Creator::Entity
         Weapon_Property,                 // DONE
         Proficiency,                     // DONE
         Background_Variant,              // DONE
-        Grants,
+        Grants,                          // DONE
         Internal,
         Dragonmark,
         Condition,
