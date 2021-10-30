@@ -24,6 +24,8 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer1->Add( m_choice1, 0, wxALL, 5 );
 
 	m_htmlWin1 = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO );
+	m_htmlWin1->SetMinSize( wxSize( 300,200 ) );
+
 	fgSizer1->Add( m_htmlWin1, 0, wxALL, 5 );
 
 
