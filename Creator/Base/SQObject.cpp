@@ -2441,6 +2441,72 @@ namespace Creator::Entity
         return "(name, description, short_description)";
     }
 
+    /// -------------------- BackgroundVariant --------------------
+
+    BackgroundVariant::BackgroundVariant(int /*argc*/, char** /*argv*/, char** /*colz*/): SQObject(Type::Background_Variant)
+    {
+        LogError("Constructor for BackgroundVariant called but not implemented");
+    }
+
+    BackgroundVariant::BackgroundVariant(tinyxml2::XMLElement* node): SQObject(Type::Background_Variant, node), SheetDisplay(node)
+    {
+        auto child = node->FirstChildElement();
+        while (child)
+        {
+            if (SafeCompareString(child->Value(), "description"))
+            {
+                description = ReplaceSpecialInString(DescriptionToString(child));
+            }
+            else if (SafeCompareString(child->Value(), "compendium"))
+            {
+                display_in_compendium = child->BoolAttribute("display");
+            }
+            else if (SafeCompareString(child->Value(), "sheet"))
+            {
+                BuildSheetAttributes(child);
+            }
+            else if (SafeCompareString(child->Value(), "setters"))
+            {
+                auto setter = child->FirstChildElement(); 
+                SetterFactory(GetMemberMap(), setter);
+            }
+            else if (SafeCompareString(child->Value(), "supports"))
+            {
+                if (auto* tmp = child->GetText())
+                    supports = tmp;
+            }
+            else if (SafeCompareString(child->Value(), "rules"))
+            {
+                rules = GenerateRules(child->FirstChildElement());
+            }
+            else
+            {
+                LogWarn("Unexpected BackgroundVariant child: {} for BackgroundVariant {}", child->Value(), node->Attribute("name"));
+            }
+            child = child->NextSiblingElement();
+        }
+    }
+
+    Factory::Maptype BackgroundVariant::GetMemberMap()
+    {
+        using namespace Tags;
+        return {
+            {Setter::SHORT, &short_description}
+        };
+    }
+
+    
+    std::string BackgroundVariant::GetReadFormat() const
+    {
+        LogError("ReadFormat called for BackgroundVariant called but not implemented");
+        return "(id, name, description, short_description)";
+    }
+    std::string BackgroundVariant::GetWriteFormat() const
+    {
+        LogError("WriteFormat called for BackgroundVariant called but not implemented");
+        return "(name, description, short_description)";
+    }
+
     /// -------------------- OTHER --------------------
 
     SQObject* CreateNewObjectFromType(Creator::Entity::Type type, int argc, char** argv, char** colz)
@@ -2900,6 +2966,14 @@ namespace Creator::Entity
         SheetDisplay::WriteToStream(os);
         os  << "requirements: " << requirements << '\n'
             << "supports: " << supports << '\n';
+        os << rules;
+        return os;
+    }
+    std::ostream& BackgroundVariant::WriteToStream(std::ostream& os) const
+    {
+        SQObject::WriteToStream(os);
+        SheetDisplay::WriteToStream(os);
+        os  << "supports: " << supports << '\n';
         os << rules;
         return os;
     }

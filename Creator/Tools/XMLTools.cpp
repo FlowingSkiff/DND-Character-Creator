@@ -390,6 +390,9 @@ void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& lis
             case Creator::Entity::Type::Proficiency:
                 list.emplace_back(new Proficiency(node));
                 break;
+            case Creator::Entity::Type::Background_Variant:
+                list.emplace_back(new BackgroundVariant(node));
+                break;
             default:
                 LogWarn("Unhandled new operation for type {}", node->Attribute("type"));
                 list.emplace_back(new SQObject(Type::General, node));

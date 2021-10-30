@@ -43,7 +43,7 @@ namespace Creator::Entity
         Support,                         // DONE
         Weapon_Property,                 // DONE
         Proficiency,                     // DONE
-        Background_Variant,
+        Background_Variant,              // DONE
         Grants,
         Internal,
         Dragonmark,
