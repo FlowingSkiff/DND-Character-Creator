@@ -27,6 +27,7 @@ bool cApp::OnInit()
     std::vector<std::string> paths;
     ExplorePath(path, paths);
     auto* tmp = new TmpDisplay();
+    // Load all items
     for (const auto& p : paths)
     {
         tinyxml2::XMLDocument xmlDoc;
@@ -36,11 +37,25 @@ bool cApp::OnInit()
             continue;
         }
         auto firstElement = xmlDoc.FirstChildElement("elements")->FirstChildElement("element");
-        GetAllElements(tmp->m_objects, firstElement);
+        GetAllElements(tmp->m_item_map, firstElement);
     }
+    // update m_items vector for lookup
+    tmp->m_items.reserve(tmp->m_item_map.size());
     std::vector<wxString> all_element_names;
-    all_element_names.reserve(tmp->m_objects.size());
-    std::for_each(std::begin(tmp->m_objects), std::end(tmp->m_objects), [&](const auto& v){all_element_names.emplace_back(v.second->external_id);});
+    all_element_names.reserve(tmp->m_item_map.size());
+    std::for_each(std::begin(tmp->m_item_map), std::end(tmp->m_item_map), 
+            [&](const auto& v){tmp->m_items.push_back(v.second);});
+    // sort the list by name, then by id
+    std::sort(std::begin(tmp->m_items), std::end(tmp->m_items),
+            [](const auto& first, const auto& second)
+            {
+                if (first->name != second->name)
+                    return first->name < second->name;
+                return first->external_id < second->external_id;
+            });
+    // update the choice box with the names
+    std::for_each(std::begin(tmp->m_items), std::end(tmp->m_items),
+            [&](const auto& v){all_element_names.emplace_back(v->name);});
     tmp->m_choice1->Set(all_element_names);
     tmp->Show(true);
     return true;

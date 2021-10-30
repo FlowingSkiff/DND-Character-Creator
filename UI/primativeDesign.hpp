@@ -16,11 +16,12 @@ class TmpDisplay: public MyFrame1
     protected:
         virtual void ReloadHtmlDescription(wxCommandEvent& event) wxOVERRIDE
         {
-            m_htmlWin1->SetPage(ProcessHTMLDescription(m_objects.at(m_choice1->GetStringSelection().ToStdString())->description));
+            m_htmlWin1->SetPage(ProcessHTMLDescription(m_items.at(static_cast<size_t>(m_choice1->GetCurrentSelection()))->description));
             event.Skip();
         }
     public:
         TmpDisplay(): MyFrame1(nullptr) { }
-        std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>> m_objects;
+        std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>> m_item_map;
+        std::vector<std::shared_ptr<Creator::Entity::SQObject>> m_items;
 };
 
