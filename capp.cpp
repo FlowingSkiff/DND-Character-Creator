@@ -25,8 +25,8 @@ bool cApp::OnInit()
 {
     const std::string path = R"(C:\Users\boats\OneDrive\Surface Documents\5e Character Builder\custom)";
     std::vector<std::string> paths;
-    std::vector<std::shared_ptr<Creator::Entity::SQObject>> allElements;
     ExplorePath(path, paths);
+    auto* tmp = new TmpDisplay();
     for (const auto& p : paths)
     {
         tinyxml2::XMLDocument xmlDoc;
@@ -36,11 +36,12 @@ bool cApp::OnInit()
             continue;
         }
         auto firstElement = xmlDoc.FirstChildElement("elements")->FirstChildElement("element");
-        GetAllElements(allElements, firstElement);
+        GetAllElements(tmp->m_objects, firstElement);
     }
-    auto* tmp = new TmpDisplay();
-    for (const auto& o : allElements)
-        tmp->m_choice1->AppendString(o->name);
+    std::vector<wxString> all_element_names;
+    all_element_names.reserve(tmp->m_objects.size());
+    std::for_each(std::begin(tmp->m_objects), std::end(tmp->m_objects), [&](const auto& v){all_element_names.emplace_back(v.second->external_id);});
+    tmp->m_choice1->Set(all_element_names);
     tmp->Show(true);
     return true;
 }
