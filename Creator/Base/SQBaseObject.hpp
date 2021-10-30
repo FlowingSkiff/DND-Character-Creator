@@ -45,7 +45,7 @@ namespace Creator::Entity
         Proficiency,                     // DONE
         Background_Variant,              // DONE
         Grants,                          // DONE
-        Internal,
+        Internal,                        // DONE
         Dragonmark,
         Condition,
         Magic_School,
