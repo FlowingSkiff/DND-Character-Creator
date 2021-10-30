@@ -29,7 +29,7 @@ class MyFrame1 : public wxFrame
 {
 	private:
 
-	protected:
+	public:
 		wxChoice* m_choice1;
 		wxHtmlWindow* m_htmlWin1;
 

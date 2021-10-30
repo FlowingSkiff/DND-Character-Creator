@@ -21,9 +21,10 @@ add_subdirectory(UI)
 
 link_libraries(CreatorBase CreatorTools ThirdParty UI UI_BASE ${wxWidgets_LIBRARIES})
 
-#add_executable(MyDNDCreator xmltagextractor.cpp)
+add_executable(XMLTags xmltagextractor.cpp)
 add_executable(MyDNDCreator capp.cpp)
 target_link_libraries(MyDNDCreator CreatorBase CreatorTools ThirdParty UI UI_BASE ${wxWidgets_LIBRARIES})
+target_link_libraries(XMLTags CreatorBase CreatorTools ThirdParty)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
