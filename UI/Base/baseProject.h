@@ -15,8 +15,9 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/html/htmlwin.h>
 #include <wx/sizer.h>
+#include <wx/panel.h>
+#include <wx/html/htmlwin.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,8 @@ class MyFrame1 : public wxFrame
 	private:
 
 	protected:
+		wxPanel* m_panel1;
+		wxPanel* m_panel2;
 
 		// Virtual event handlers, overide them in your derived class
 		virtual void ReloadHtmlDescription( wxCommandEvent& event ) { event.Skip(); }
@@ -39,7 +42,7 @@ class MyFrame1 : public wxFrame
 		wxChoice* m_choice1;
 		wxHtmlWindow* m_htmlWin1;
 
-		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 564,300 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE|wxTAB_TRAVERSAL );
 
 		~MyFrame1();
 

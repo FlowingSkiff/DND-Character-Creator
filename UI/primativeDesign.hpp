@@ -2,25 +2,14 @@
 #include "baseProject.h"
 #include <vector>
 #include <memory>
-#include "SQObject.hpp"
-#include "StringTools.hpp"
 namespace Creator::Entity{struct SQObject; }
-
-static wxString ProcessHTMLDescription(const std::string& str)
-{
-    return wxT("<!DOCTYPE html><html><body>") + wxString::FromUTF8(ReplaceSpecialInString(str)) + wxT("</body></html>");
-}
 
 class TmpDisplay: public MyFrame1
 {
     protected:
-        virtual void ReloadHtmlDescription(wxCommandEvent& event) wxOVERRIDE
-        {
-            m_htmlWin1->SetPage(ProcessHTMLDescription(m_items.at(static_cast<size_t>(m_choice1->GetCurrentSelection()))->description));
-            event.Skip();
-        }
+        virtual void ReloadHtmlDescription(wxCommandEvent& event) override;
     public:
-        TmpDisplay(): MyFrame1(nullptr) { }
+        TmpDisplay();
         std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>> m_item_map;
         std::vector<std::shared_ptr<Creator::Entity::SQObject>> m_items;
 };
