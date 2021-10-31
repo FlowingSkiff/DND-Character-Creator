@@ -23,6 +23,9 @@ cApp::~cApp()
 
 bool cApp::OnInit()
 {
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)        
+        SetConsoleOutputCP(CP_UTF8);
+    #endif
     const std::string path = R"(C:\Users\boats\OneDrive\Surface Documents\5e Character Builder\custom)";
     std::vector<std::string> paths;
     ExplorePath(path, paths);
