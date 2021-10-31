@@ -8,7 +8,7 @@ namespace Creator::Entity{struct SQObject; }
 
 static wxString ProcessHTMLDescription(const std::string& str)
 {
-    return "<!DOCTYPE html><html><body>" + ReplaceSpecialInString(str) + "</body></html>";
+    return wxT("<!DOCTYPE html><html><body>") + wxString::FromUTF8(ReplaceSpecialInString(str)) + wxT("</body></html>");
 }
 
 class TmpDisplay: public MyFrame1
