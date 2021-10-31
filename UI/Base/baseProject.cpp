@@ -22,10 +22,16 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
 	m_panel1 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel1->SetBackgroundColour( wxColour( 11, 151, 204 ) );
+
 	wxFlexGridSizer* fgSizer2;
-	fgSizer2 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer2 = new wxFlexGridSizer( 0, 1, 0, 0 );
 	fgSizer2->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+	m_staticText1 = new wxStaticText( m_panel1, wxID_ANY, wxT("Element Name"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	fgSizer2->Add( m_staticText1, 0, wxALL, 5 );
 
 	wxArrayString m_choice1Choices;
 	m_choice1 = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice1Choices, 0 );
@@ -39,6 +45,8 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	fgSizer1->Add( m_panel1, 1, wxALL, 5 );
 
 	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel2->SetBackgroundColour( wxColour( 37, 100, 122 ) );
+
 	wxFlexGridSizer* fgSizer4;
 	fgSizer4 = new wxFlexGridSizer( 1, 0, 0, 0 );
 	fgSizer4->AddGrowableCol( 0 );
