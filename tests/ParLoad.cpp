@@ -56,7 +56,7 @@ namespace Custom
     {
         return XMLIterator(wrapped.m_ptr);
     }
-    XMLIterator end(XMLWrapper& wrapped)
+    XMLIterator end(XMLWrapper& /*wrapped*/)
     {
         return XMLIterator(nullptr);
     }
@@ -260,6 +260,8 @@ int main()
     ExplorePath(path, paths);
     {
         std::vector<std::shared_ptr<SQObject>> allElements;
+        allElements.reserve(12000);
+        
         auto t1 = std::chrono::high_resolution_clock::now();
         
         for (const auto& p : paths)
@@ -272,9 +274,11 @@ int main()
         }
         auto t2 = std::chrono::high_resolution_clock::now();
         std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        std::cout << allElements.size() << '\n';
     }
     {
         std::vector<std::shared_ptr<SQObject>> allElements;
+        allElements.reserve(12000);
         auto t1 = std::chrono::high_resolution_clock::now();
         
         for (const auto& p : paths)
@@ -287,5 +291,32 @@ int main()
         }
         auto t2 = std::chrono::high_resolution_clock::now();
         std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        std::cout << allElements.size() << '\n';
+    }
+    {
+        std::vector<std::shared_ptr<SQObject>> allElements;
+        allElements.reserve(12000);
+        auto t1 = std::chrono::high_resolution_clock::now();
+        
+        std::mutex lock;
+        std::for_each(std::execution::par_unseq,
+                      paths.begin(), paths.end(),
+                      [&](const auto& p){
+                            XMLDocument xmlDoc;
+                            xmlDoc.LoadFile(p.c_str());
+                            auto root = xmlDoc.FirstChildElement("elements");
+                            auto firstElement = root->FirstChildElement("element");
+                            Custom::XMLWrapper wpr(firstElement);
+                            for (auto& v : wpr)
+                            {
+                                auto tmp = GetObjectFromNode(&v);
+                                std::lock_guard<std::mutex> guard(lock);
+                                allElements.emplace_back(std::move(tmp));
+                            }
+                      }
+                      );
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        std::cout << allElements.size() << '\n';
     }
 }
