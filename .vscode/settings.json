@@ -67,6 +67,9 @@
         "any": "cpp",
         "cassert": "cpp",
         "cerrno": "cpp",
-        "climits": "cpp"
+        "climits": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "list": "cpp"
     }
 }
