@@ -1,0 +1,5 @@
+file(GLOB test_sources RELATIVE ${CMAKE_SOURCE_DIR}/tests *.cpp)
+foreach(test ${test_sources})
+    string(REPLACE ".cpp" "" testname ${test})
+    add_executable(${testname} ${test})
+endforeach(test ${test_sources})
