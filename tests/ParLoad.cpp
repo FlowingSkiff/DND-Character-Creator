@@ -263,7 +263,7 @@ int main()
         std::vector<std::shared_ptr<SQObject>> allElements;
         allElements.reserve(12000);
 
-        auto t1 = std::chrono::high_resolution_clock::now();
+        //auto t1 = std::chrono::high_resolution_clock::now();
         
         for (const auto& p : paths)
         {
@@ -280,9 +280,11 @@ int main()
             return (v1->name == v2->name) ? v1->external_id < v2->external_id : v1->name < v2->name;
         });
         auto t4 = std::chrono::high_resolution_clock::now();
-        std::cout << "Sorting took " << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "milliseconds\n";
-        std::cout << allElements.size() << '\n';
+        //std::cout << "Sorting took " << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "milliseconds\n";
+        //std::cout << allElements.size() << '\n';
     }
+    
+    /*
     {
         std::vector<std::shared_ptr<SQObject>> allElements;
         allElements.reserve(12000);
@@ -351,4 +353,6 @@ int main()
         std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
         std::cout << allElements.size() << '\n';
     }
+    */
+   return 0;
 }
