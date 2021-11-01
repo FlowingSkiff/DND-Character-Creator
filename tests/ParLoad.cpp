@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <mutex>
 #include <execution>
+#include <thread>
 struct XMLIterator
 {
     using difference_type = std::ptrdiff_t;
@@ -261,7 +262,7 @@ int main()
     {
         std::vector<std::shared_ptr<SQObject>> allElements;
         allElements.reserve(12000);
-        
+
         auto t1 = std::chrono::high_resolution_clock::now();
         
         for (const auto& p : paths)
@@ -274,8 +275,39 @@ int main()
         }
         auto t2 = std::chrono::high_resolution_clock::now();
         std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        auto t3 = std::chrono::high_resolution_clock::now();
+        std::sort(std::begin(allElements), std::end(allElements), [](const auto& v1, const auto& v2){
+            return (v1->name == v2->name) ? v1->external_id < v2->external_id : v1->name < v2->name;
+        });
+        auto t4 = std::chrono::high_resolution_clock::now();
+        std::cout << "Sorting took " << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "milliseconds\n";
         std::cout << allElements.size() << '\n';
     }
+    {
+        std::vector<std::shared_ptr<SQObject>> allElements;
+        allElements.reserve(12000);
+
+        auto t1 = std::chrono::high_resolution_clock::now();
+        
+        for (const auto& p : paths)
+        {
+            XMLDocument xmlDoc;
+            xmlDoc.LoadFile(p.c_str());
+            auto root = xmlDoc.FirstChildElement("elements");
+            auto firstElement = root->FirstChildElement("element");
+            GetAllElements(allElements, firstElement);
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        auto t3 = std::chrono::high_resolution_clock::now();
+        std::sort(std::execution::par_unseq, std::begin(allElements), std::end(allElements), [](const auto& v1, const auto& v2){
+            return (v1->name == v2->name) ? v1->external_id < v2->external_id : v1->name < v2->name;
+        });
+        auto t4 = std::chrono::high_resolution_clock::now();
+        std::cout << "Par Sorting took " << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "milliseconds\n";
+        std::cout << allElements.size() << '\n';
+    }
+    
     {
         std::vector<std::shared_ptr<SQObject>> allElements;
         allElements.reserve(12000);
