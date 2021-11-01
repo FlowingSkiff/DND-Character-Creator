@@ -7,6 +7,7 @@ enable_testing()
 link_libraries(stdc++fs tinyxml2 sqlite3 spdlog fmt)
 include_directories(thirdparty/include $ENV{MSYS2INCLUDE} Creator Creator/Base Creator/Tools UI UI/Base)
 find_package(wxWidgets REQUIRED COMPONENTS net core base html)
+find_package(Threads)
 add_compile_definitions(SPDLOG_FMT_EXTERNAL)
 add_compile_options(-DDOLOG -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wunused -Wcast-align -Woverloaded-virtual -Wsign-conversion -Wconversion -Wpedantic -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wdouble-promotion -Wformat=2)
 include(${wxWidgets_USE_FILE})
@@ -19,7 +20,7 @@ add_subdirectory(Creator)
 add_subdirectory(thirdparty)
 add_subdirectory(UI)
 
-link_libraries(CreatorBase ThirdParty UI UI_BASE ${wxWidgets_LIBRARIES})
+link_libraries(CreatorBase ThirdParty UI UI_BASE ${wxWidgets_LIBRARIES} Threads::Threads)
 
 add_subdirectory(tests)
 
