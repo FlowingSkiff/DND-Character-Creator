@@ -19,5 +19,5 @@ namespace Creator
      * @param id_map global map with ID being the key
      * @return std::string formatted description
      */
-    std::string FormatDescription(const std::string& name, const std::string& desc, const std::unordered_map<std::string, std::shared_ptr<Entity::SQObject>>& id_map);
+    std::string FormatDescription(const std::string& name, std::string desc, const std::unordered_map<std::string, std::shared_ptr<Entity::SQObject>>& id_map, const int& level = 1);
 }
