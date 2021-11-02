@@ -1,7 +1,7 @@
 #pragma once
-#include <magic_enum.hpp>
 #include <string>
 #include <algorithm>
+#include <magic_enum.hpp>
 namespace Creator::Entity::Tags
 {
     // Enum class for all setter values
