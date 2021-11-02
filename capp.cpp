@@ -1,12 +1,12 @@
 #include "capp.hpp"
-#include "primativeDesign.hpp"
-#include "XMLTools.hpp"
+#include <UI/primativeDesign.hpp>
+#include <Creator/Base/XMLTools.hpp>
 #include <tinyxml2.h>
 #include <string>
 #include <vector>
 #include <filesystem>
-#include "LoggingTools.hpp"
-#include "PathingTools.hpp"
+#include <Creator/Base/LoggingTools.hpp>
+#include <Creator/Base/PathingTools.hpp>
 wxIMPLEMENT_APP(cApp);
 
 std::shared_ptr<spdlog::logger> Logfile::m_instance = nullptr;

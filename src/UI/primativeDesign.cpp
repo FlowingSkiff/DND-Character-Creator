@@ -1,7 +1,7 @@
-#include "primativeDesign.hpp"
+#include <UI/primativeDesign.hpp>
 
-#include "SQObject.hpp"
-#include "StringTools.hpp"
+#include <Creator/Base/SQObject.hpp>
+#include <Creator/Base/StringTools.hpp>
 
 static wxString ProcessHTMLDescription(const std::string& str)
 {

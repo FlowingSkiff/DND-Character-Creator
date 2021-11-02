@@ -7,14 +7,14 @@
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include "tinyxml2.h"
+#include <tinyxml2.h>
 
 
-#include "XMLTools.hpp"
-#include "PathingTools.hpp"
-#include "StringTools.hpp"
-#include "LoggingTools.hpp"
-#include "SQObject.hpp"
+#include <Creator/Base/XMLTools.hpp>
+#include <Creator/Base/PathingTools.hpp>
+#include <Creator/Base/StringTools.hpp>
+#include <Creator/Base/LoggingTools.hpp>
+#include <Creator/Base/SQObject.hpp>
 
 std::shared_ptr<spdlog::logger> Logfile::m_instance = nullptr;
 

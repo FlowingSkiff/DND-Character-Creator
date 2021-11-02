@@ -1,8 +1,8 @@
 #include "tinyxml2.h"
-#include "SQObject.hpp"
-#include "PathingTools.hpp"
-#include "LoggingTools.hpp"
-#include "XMLTools.hpp"
+#include <Creator/Base/SQObject.hpp>
+#include <Creator/Base/PathingTools.hpp>
+#include <Creator/Base/LoggingTools.hpp>
+#include <Creator/Base/XMLTools.hpp>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -273,13 +273,13 @@ int main()
             auto firstElement = root->FirstChildElement("element");
             GetAllElements(allElements, firstElement);
         }
-        auto t2 = std::chrono::high_resolution_clock::now();
-        std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
-        auto t3 = std::chrono::high_resolution_clock::now();
+        //auto t2 = std::chrono::high_resolution_clock::now();
+        //std::cout << "Loading took " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "milliseconds\n";
+        //auto t3 = std::chrono::high_resolution_clock::now();
         std::sort(std::begin(allElements), std::end(allElements), [](const auto& v1, const auto& v2){
             return (v1->name == v2->name) ? v1->external_id < v2->external_id : v1->name < v2->name;
         });
-        auto t4 = std::chrono::high_resolution_clock::now();
+        //auto t4 = std::chrono::high_resolution_clock::now();
         //std::cout << "Sorting took " << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "milliseconds\n";
         //std::cout << allElements.size() << '\n';
     }
