@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 
-
-
 link_libraries(stdc++fs tinyxml2 sqlite3 spdlog fmt)
 include_directories(thirdparty/include $ENV{MSYS2INCLUDE} include src/UI/Base)
 find_package(wxWidgets REQUIRED COMPONENTS net core base html)
@@ -29,6 +27,10 @@ add_executable(XMLTags xmltagextractor.cpp)
 add_executable(MyDNDCreator capp.cpp)
 target_link_libraries(MyDNDCreator CreatorBase ThirdParty UI UI_BASE ${wxWidgets_LIBRARIES} Creator)
 target_link_libraries(XMLTags CreatorBase ThirdParty Creator)
+
+add_custom_command(TARGET MyDNDCreator PRE_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    ${CMAKE_SOURCE_DIR}/docs/ $<TARGET_FILE_DIR:MyDNDCreator>/docs)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

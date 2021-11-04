@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<elements>
+    <gamerules>
+        <experience>
+            <level requires="0" proficiency-bonus="2">1</level>
+            <level requires="300" proficiency-bonus="2">2</level>
+            <level requires="900" proficiency-bonus="2">3</level>
+            <level requires="2700" proficiency-bonus="2">4</level>
+            <level requires="6500" proficiency-bonus="3">5</level>
+            <level requires="14000" proficiency-bonus="3">6</level>
+            <level requires="23000" proficiency-bonus="3">7</level>
+            <level requires="34000" proficiency-bonus="3">8</level>
+            <level requires="48000" proficiency-bonus="4">9</level>
+            <level requires="64000" proficiency-bonus="4">10</level>
+            <level requires="85000" proficiency-bonus="4">11</level>
+            <level requires="100000" proficiency-bonus="4">12</level>
+            <level requires="120000" proficiency-bonus="5">13</level>
+            <level requires="140000" proficiency-bonus="5">14</level>
+            <level requires="165000" proficiency-bonus="5">15</level>
+            <level requires="195000" proficiency-bonus="5">16</level>
+            <level requires="225000" proficiency-bonus="6">17</level>
+            <level requires="265000" proficiency-bonus="6">18</level>
+            <level requires="305000" proficiency-bonus="6">19</level>
+            <level requires="355000" proficiency-bonus="6">20</level>
+        </experience>
+        <abilities>
+            <strength max="20" default="10" delta="2" iter="1" />
+            <dexterity max="20" default="10" delta="2" iter="1" />
+            <constitution max="20" default="10" delta="2" iter="1" />
+            <intelligence max="20" default="10" delta="2" iter="1" />
+            <wisdom max="20" default="10" delta="2" iter="1" />
+            <charisma max="20" default="10" delta="2" iter="1" />
+        </abilities>
+        <skills>
+            <athletics base="0" abilitiy="strength" />
+            <acrobatics base="0" abilitiy="dexterity" />
+            <sleight-of-hand base="0" abilitiy="dexterity" />
+            <stealth base="0" abilitiy="dexterity" />
+            <arcana base="0" abilitiy="intelligence" />
+            <history base="0" abilitiy="intelligence</history>
+            <investigation base="0" abilitiy="intelligence" />
+            <nature base="0" abilitiy="intelligence" />
+            <religion base="0" abilitiy="intelligence" />
+            <animal-handling base="0" abilitiy="wisdom" />
+            <insight base="0" abilitiy="wisdom" />
+            <medicine base="0" abilitiy="wisdom" />
+            <perception base="0" abilitiy="wisdom" />
+            <survival base="0" abilitiy="wisdom" />
+            <deception base="0" abilitiy="charisma" />
+            <intimidation base="0" abilitiy="charisma" />
+            <performance base="0" abilitiy="charisma" />
+            <persuasion base="0" abilitiy="charisma" />
+			<initiative base="0" abilitiy="dexterity" />
+			<ac base="10" abilitiy="dexterity" />
+			<carry-capacity base="0" multiplier="15" abilitiy="strength" />
+        </skills>
+    </gamerules>
+	<characterbase>
+        <name></name>
+        <playername></playername>
+        <alignment></alignment>
+		<abilities>
+			<!-- Base value from rolling/rules and set means a value explicitly sets the value-->
+			<strength base="10" set="false">10</strength>
+			<dexterity base="10" set="false">10</dexterity>
+			<constitution base="10" set="false">10</constitution>
+			<intelligence base="10" set="false">10</intelligence>
+			<wisdom base="10" set="false">10</wisdom>
+			<charisma base="10" set="false">10</charisma>
+		</abilities>
+		<skills>
+            <athletics>0</athletics>
+            <acrobatics>0</acrobatics>
+            <sleight-of-hand>0</sleight-of-hand>
+            <stealth>0</stealth>
+            <arcana>0</arcana>
+            <history>0</history>
+            <investigation>0</investigation>
+            <nature>0</nature>
+            <religion>0</religion>
+            <animal-handling>0</animal-handling>
+            <insight>0</insight>
+            <medicine>0</medicine>
+            <perception>0</perception>
+            <survival>0</survival>
+            <deception>0</deception>
+            <intimidation>0</intimidation>
+            <performance>0</performance>
+            <persuasion>0</persuasion>
+			<initiative>0</initiative>
+			<ac>10</ac>
+		</skills>
+		<defines>
+			<!-- <ID_SOMETHING /> Added and removed from classes, races, background, inventory -->
+		</defines>
+		<classes>
+			<class id="ID_SOMETHING" level="1" primary="true"/>
+			<!-- for multiclass -->
+			<class id="ID_SOMETHING_ELSE" level="1" primary="false"/> 
+		</classes>
+		<background></background>
+		<race></race>
+        <inventory>
+            <item count="1" equipped="false" attuned="false" show-attack="false">ID_SOMETHING</item>
+        </inventory>
+	</characterbase>
+</elements>
