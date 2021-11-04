@@ -1,0 +1,62 @@
+.
+|   .gitignore
+|   capp.cpp
+|   capp.hpp
+|   CMakeLists.txt
+|   xmltagextractor.cpp
+|                   
++---docs
+|       CharacterScheme.xml
+|       
++---include
+|   +---Creator
+|   |   |   DescriptionTools.hpp
+|   |   |   
+|   |   \---Base
+|   |           CreatorFactory.hpp
+|   |           LoggingTools.hpp
+|   |           PathingTools.hpp
+|   |           SQBaseObject.hpp
+|   |           SQLiteWrapper.hpp
+|   |           SQObject.hpp
+|   |           StringTools.hpp
+|   |           TagEnums.hpp
+|   |           XMLTools.hpp
+|   |           
+|   \---UI
+|           primativeDesign.hpp
+|           
++---src
+|   |   CMakeLists.txt
+|   |   
+|   +---Creator
+|   |   |   CMakeLists.txt
+|   |   |   DescriptionTools.cpp
+|   |   |   
+|   |   \---Base
+|   |           CMakeLists.txt
+|   |           CreatorFactory.cpp
+|   |           SQBaseObject.cpp
+|   |           SQObject.cpp
+|   |           StringTools.cpp
+|   |           XMLTools.cpp
+|   |           
+|   \---UI
+|       |   CMakeLists.txt
+|       |   primativeDesign.cpp
+|       |   
+|       \---Base
+|               baseProject.cpp
+|               baseProject.h
+|               CMakeLists.txt
+|               UIDesign.fbp
+|               
++---tests
+|       CMakeLists.txt
+|       ParLoad.cpp
+|       
+\---thirdparty
+    |   CMakeLists.txt
+    |   
+    \---include
+            magic_enum.hpp
