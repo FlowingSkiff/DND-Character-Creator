@@ -1,4 +1,15 @@
 add_subdirectory(Base)
-file(GLOB creator_sources *.cpp)
+set(creator_sources
+    DescriptionTools.cpp
+)
 add_library(Creator ${creator_sources})
-link_libraries(Creator)
+target_link_libraries(Creator 
+    PUBLIC 
+        CreatorBase
+        project_options
+        project_warnings
+)
+target_include_directories(Creator BEFORE
+    PUBLIC 
+        ${CMAKE_SOURCE_DIR}/include
+)
