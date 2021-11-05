@@ -29,24 +29,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 class MyFrame1 : public wxFrame
 {
-	private:
+  private:
+  protected:
+    wxPanel* m_panel1;
+    wxStaticText* m_staticText1;
+    wxPanel* m_panel2;
 
-	protected:
-		wxPanel* m_panel1;
-		wxStaticText* m_staticText1;
-		wxPanel* m_panel2;
-
-		// Virtual event handlers, overide them in your derived class
-		virtual void ReloadHtmlDescription( wxCommandEvent& event ) { event.Skip(); }
+    // Virtual event handlers, overide them in your derived class
+    virtual void ReloadHtmlDescription(wxCommandEvent& event) { event.Skip(); }
 
 
-	public:
-		wxChoice* m_choice1;
-		wxHtmlWindow* m_htmlWin1;
+  public:
+    wxChoice* m_choice1;
+    wxHtmlWindow* m_htmlWin1;
 
-		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 564,300 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE|wxTAB_TRAVERSAL );
+    MyFrame1(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(564, 300), long style = wxDEFAULT_FRAME_STYLE | wxMAXIMIZE | wxTAB_TRAVERSAL);
 
-		~MyFrame1();
-
+    ~MyFrame1();
 };
-

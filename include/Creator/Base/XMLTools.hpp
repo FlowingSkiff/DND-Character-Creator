@@ -23,19 +23,19 @@ struct Xmlelement
 };
 
 // For each element type find all child values
-void RecursiveSieveElementTypes(    std::unordered_map<std::string, std::unordered_set<std::string>>& smap,
-                                    tinyxml2::XMLElement* node);
+void RecursiveSieveElementTypes(std::unordered_map<std::string, std::unordered_set<std::string>>& smap,
+    tinyxml2::XMLElement* node);
 
 // For all element, find the basic information
 void RecursiveAddElements(std::unordered_map<std::string, std::vector<Xmlelement>>& gmap,
-                            tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);
 
 // For each element type, get the children names
-void RecursiveGetElementChildren(std::unordered_set<std::string>& values, 
-                                 tinyxml2::XMLElement* node);
+void RecursiveGetElementChildren(std::unordered_set<std::string>& values,
+    tinyxml2::XMLElement* node);
 
 void RecursiveFindElementAttributeAndText(std::unordered_map<std::string, std::unordered_set<std::string>>& values,
-                                          tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);
 
 std::string GetDescriptionFromElement(tinyxml2::XMLElement* node);
 std::string DescriptionToString(tinyxml2::XMLElement* node);
@@ -55,13 +55,13 @@ void RecursiveGetSources(std::vector<Creator::Entity::Source>& sources, tinyxml2
 void RecursiveGetFeatFeatures(std::vector<Creator::Entity::FeatFeature>& features, tinyxml2::XMLElement* node);
 // find all setter names for every type of element
 void RecursiveFindAllSetterNames(std::unordered_set<std::string>& setNames,
-                                 tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);
 // find all rule names for every type of element
 void RecursiveFindAllRuleAttNames(std::unordered_map<std::string, std::unordered_set<std::string>>& ruleNamesWithAtts,
-                                 tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);
 
 void GetAllElements(std::unordered_map<std::string, std::shared_ptr<Creator::Entity::SQObject>>& list,
-                    tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);
 
 // Build all spell xml sqobjects
 template<typename T, typename = typename std::enable_if<std::is_base_of<Creator::Entity::SQObject, T>::value>::type>
@@ -81,4 +81,4 @@ void RecursiveGetElementsByType(std::vector<T>& sources, tinyxml2::XMLElement* n
 }
 
 void GetAllElements(std::vector<std::shared_ptr<Creator::Entity::SQObject>>& list,
-                    tinyxml2::XMLElement* node);
+    tinyxml2::XMLElement* node);

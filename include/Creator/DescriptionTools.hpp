@@ -3,9 +3,8 @@
 #include <unordered_map>
 #include "Base/SQBaseObject.hpp"
 #include <memory>
-namespace Creator
-{
-    /**
+namespace Creator {
+/**
      * @brief Formats an input description if required. Values formated like {{}} are replaced and description divs following 
      *        <div element="ID_###"> are inserted. Formats the desc as
      *        <h1>$name<h1>
@@ -19,5 +18,5 @@ namespace Creator
      * @param id_map global map with ID being the key
      * @return std::string formatted description
      */
-    std::string FormatDescription(const std::string& name, std::string desc, const std::unordered_map<std::string, std::shared_ptr<Entity::SQObject>>& id_map, const int& level = 1);
-}
+std::string FormatDescription(const std::string& name, std::string desc, const std::unordered_map<std::string, std::shared_ptr<Entity::SQObject>>& id_map, const int& level = 1);
+}// namespace Creator

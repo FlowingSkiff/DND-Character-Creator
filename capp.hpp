@@ -2,9 +2,8 @@
 #include <wx\wx.h>
 class cApp : public wxApp
 {
-public:
-	cApp();
-	~cApp();
+  public:
+    cApp();
+    ~cApp();
     virtual bool OnInit();
 };
-

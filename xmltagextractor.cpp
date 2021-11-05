@@ -20,7 +20,7 @@ std::shared_ptr<spdlog::logger> Logfile::m_instance = nullptr;
 
 using namespace tinyxml2;
 using namespace Creator::Entity;
-int main(int, char**) 
+int main(int, char**)
 {
     const std::string path = R"(C:\Users\boats\OneDrive\Surface Documents\5e Character Builder\custom)";
     std::vector<std::string> paths;
@@ -80,7 +80,7 @@ int main(int, char**)
         GetAllElements(allElements, firstElement);
     }
     std::ofstream outtmp("logs/allElements.txt");
-    for (const auto& f: allElements)
+    for (const auto& f : allElements)
     {
         outtmp << *f << '\n';
     }

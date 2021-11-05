@@ -19,9 +19,11 @@ void InplaceUnderscoreWhitespace(std::string& str);
 
 
 // Compare options to be used with Safe compare string
-enum class CompareOpts
-{
-   Whitepace = 1, IgnoreCase = 2, OnlyAlpha = 4, Default = Whitepace | IgnoreCase | OnlyAlpha
+enum class CompareOpts {
+    Whitepace = 1,
+    IgnoreCase = 2,
+    OnlyAlpha = 4,
+    Default = Whitepace | IgnoreCase | OnlyAlpha
 };
 // overload for the bitwise and for compare options
 int operator&(const CompareOpts& op1, const CompareOpts& op2);

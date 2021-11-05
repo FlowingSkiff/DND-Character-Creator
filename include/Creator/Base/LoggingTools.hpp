@@ -1,10 +1,10 @@
 #pragma once
 #include <fstream>
 #ifndef DOLOG
-    #define DOLOG 0
+#define DOLOG 0
 #elif DOLOG
-    #include "spdlog/spdlog.h"
-    #include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/basic_file_sink.h"
 #endif
 
 /**
@@ -16,30 +16,31 @@
  */
 class Logfile
 {
-    public:
-        static std::shared_ptr<spdlog::logger> GetInstance()
+  public:
+    static std::shared_ptr<spdlog::logger> GetInstance()
+    {
+#if DOLOG
+        if (m_instance == nullptr)
         {
-            #if DOLOG
-            if (m_instance == nullptr)
-            {
-                std::vector<spdlog::sink_ptr> sinks;
-                sinks.push_back(std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>());
-                sinks.back()->set_level(spdlog::level::warn);
-                sinks.back()->set_pattern("[%^%l%$] %v");
-                sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/log.log"));
-                sinks.back()->set_pattern("[%^%l%$] %v");
-                sinks.back()->set_level(spdlog::level::warn);
-                sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/debug.log"));
-                sinks.back()->set_pattern("[%^%l%$] DEBUG: %v");
-                sinks.back()->set_level(spdlog::level::trace);
-                m_instance = std::make_shared<spdlog::logger>("multi_sink", std::begin(sinks), std::end(sinks));
-                m_instance->set_level(spdlog::level::trace);
-            }
-            #endif
-            return m_instance;
+            std::vector<spdlog::sink_ptr> sinks;
+            sinks.push_back(std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>());
+            sinks.back()->set_level(spdlog::level::warn);
+            sinks.back()->set_pattern("[%^%l%$] %v");
+            sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/log.log"));
+            sinks.back()->set_pattern("[%^%l%$] %v");
+            sinks.back()->set_level(spdlog::level::warn);
+            sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/debug.log"));
+            sinks.back()->set_pattern("[%^%l%$] DEBUG: %v");
+            sinks.back()->set_level(spdlog::level::trace);
+            m_instance = std::make_shared<spdlog::logger>("multi_sink", std::begin(sinks), std::end(sinks));
+            m_instance->set_level(spdlog::level::trace);
         }
-    private:
-        static std::shared_ptr<spdlog::logger> m_instance;
+#endif
+        return m_instance;
+    }
+
+  private:
+    static std::shared_ptr<spdlog::logger> m_instance;
 };
 
 /**
@@ -53,11 +54,11 @@ class Logfile
 template<typename First, typename... Args>
 void Log(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->info(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->info(first, args...);
+#endif
 }
 
 
@@ -72,11 +73,11 @@ void Log(const First& first, const Args&... args)
 template<typename First, typename... Args>
 void LogInfo(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->info(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->info(first, args...);
+#endif
 }
 
 /**
@@ -90,11 +91,11 @@ void LogInfo(const First& first, const Args&... args)
 template<typename First, typename... Args>
 void LogCritical(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->critical(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->critical(first, args...);
+#endif
 }
 
 /**
@@ -108,11 +109,11 @@ void LogCritical(const First& first, const Args&... args)
 template<typename First, typename... Args>
 void LogWarn(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->warn(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->warn(first, args...);
+#endif
 }
 
 /**
@@ -126,11 +127,11 @@ void LogWarn(const First& first, const Args&... args)
 template<typename First, typename... Args>
 void LogDebug(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->debug(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->debug(first, args...);
+#endif
 }
 
 /**
@@ -144,9 +145,9 @@ void LogDebug(const First& first, const Args&... args)
 template<typename First, typename... Args>
 void LogError(const First& first, const Args&... args)
 {
-    #if DOLOG
-        //LOGGING_OUTPUT << first << ' ';
-        //Log(args...);
-        Logfile::GetInstance()->error(first, args...);
-    #endif
+#if DOLOG
+    //LOGGING_OUTPUT << first << ' ';
+    //Log(args...);
+    Logfile::GetInstance()->error(first, args...);
+#endif
 }

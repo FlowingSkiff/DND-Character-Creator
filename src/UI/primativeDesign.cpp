@@ -4,7 +4,7 @@
 #include <Creator/Base/StringTools.hpp>
 #include <Creator/DescriptionTools.hpp>
 
-void TmpDisplay::ReloadHtmlDescription(wxCommandEvent& event) 
+void TmpDisplay::ReloadHtmlDescription(wxCommandEvent& event)
 {
     //m_htmlWin1->SetPage(ProcessHTMLDescription(m_items.at(static_cast<size_t>(m_choice1->GetCurrentSelection()))->description));
     auto& item = m_items.at(static_cast<size_t>(m_choice1->GetCurrentSelection()));
@@ -13,7 +13,7 @@ void TmpDisplay::ReloadHtmlDescription(wxCommandEvent& event)
     event.Skip();
 }
 
-TmpDisplay::TmpDisplay(): MyFrame1(nullptr) 
-{ 
+TmpDisplay::TmpDisplay() : MyFrame1(nullptr)
+{
     this->Maximize(true);
 }
