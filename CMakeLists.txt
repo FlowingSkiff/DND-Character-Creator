@@ -5,19 +5,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 
+include(cmake/StandardProjectSettings.cmake)
+
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
 add_library(project_warnings INTERFACE)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
-
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+    target_compile_options(project_options -O3)
+endif(CMAKE_BUILD_TYPE MATCHES Release)
 
 find_package(wxWidgets REQUIRED COMPONENTS html core base net)
 include(${wxWidgets_USE_FILE})
-
-IF(CMAKE_BUILD_TYPE MATCHES Release)
-    add_compile_options(-O3)
-endif(CMAKE_BUILD_TYPE MATCHES Release)
 
 add_subdirectory(thirdparty)
 add_subdirectory(src)
