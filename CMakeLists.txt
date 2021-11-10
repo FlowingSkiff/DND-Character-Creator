@@ -19,17 +19,13 @@ endif(CMAKE_BUILD_TYPE MATCHES Release)
 find_package(wxWidgets REQUIRED COMPONENTS html core base net)
 include(${wxWidgets_USE_FILE})
 
-add_subdirectory(thirdparty)
 add_subdirectory(src)
-
-
 add_subdirectory(tests)
 
 add_executable(MyDNDCreator capp.cpp)
 target_link_libraries(MyDNDCreator 
     PUBLIC 
-        Creator 
-        ThirdParty 
+        Creator  
         UI
         project_options
         project_warnings
@@ -43,8 +39,7 @@ target_include_directories(MyDNDCreator BEFORE
 
 add_executable(XMLTags xmltagextractor.cpp)
 target_link_libraries(XMLTags 
-    PUBLIC 
-        ThirdParty 
+    PUBLIC  
         Creator
         project_options
         project_warnings
