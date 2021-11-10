@@ -1,6 +1,8 @@
 add_subdirectory(Base)
 set(creator_sources
     DescriptionTools.cpp
+    Character.cpp
+    EntityList.cpp
 )
 add_library(Creator ${creator_sources})
 target_link_libraries(Creator 
