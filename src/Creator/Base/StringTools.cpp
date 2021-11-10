@@ -58,26 +58,6 @@ std::ostream& writeString(std::ostream& out, std::string const& s)
     return out;
 }
 
-std::string ReplaceSpecialInString(std::string str)
-{
-    const std::unordered_map<std::string, std::string> badMap{
-        { "’", "\'" },
-        { "‘", "\'" },
-        { "”", "\"" },
-        { "“", "\"" }
-    };
-    for (const auto& [bad, good] : badMap)
-    {
-        size_t startpos = str.find(bad);
-        while (startpos != std::string::npos)
-        {
-            str.replace(startpos, bad.length(), "\'");
-            startpos = str.find(bad);
-        }
-    }
-    return str;
-}
-
 void InplaceCapitalize(std::string& str)
 {
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);

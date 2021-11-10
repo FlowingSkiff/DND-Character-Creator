@@ -8,9 +8,6 @@
 // safely writes string to out stream by protecting special characters
 std::ostream& writeString(std::ostream& out, std::string const& s);
 
-// Removes special quotation marks in string with ASCII characters
-std::string ReplaceSpecialInString(std::string str);
-
 // Capitalizes a string inplace by reference
 void InplaceCapitalize(std::string& str);
 
