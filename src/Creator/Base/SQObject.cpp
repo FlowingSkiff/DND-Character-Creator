@@ -55,7 +55,7 @@ Spell::Spell(tinyxml2::XMLElement* node) : SQObject(Type::Spell, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = DescriptionToString(child);
         }
         else if (SafeCompareString(child->Value(), "setters"))
         {
@@ -170,7 +170,7 @@ Deity::Deity(tinyxml2::XMLElement* node) : SQObject(Type::Deity, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "setters"))
         {
@@ -255,7 +255,7 @@ Language::Language(tinyxml2::XMLElement* node) : SQObject(Type::Language, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "setters"))
         {
@@ -366,7 +366,7 @@ Source::Source(tinyxml2::XMLElement* node) : SQObject(Type::Source, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "setters"))
         {
@@ -447,7 +447,7 @@ Information::Information(tinyxml2::XMLElement* node) : SQObject(Type::Informatio
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "setters"))
         {
@@ -510,7 +510,7 @@ FeatFeature::FeatFeature(tinyxml2::XMLElement* node) : SQObject(Type::Feat_Featu
         }
         else if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -581,7 +581,7 @@ Feat::Feat(tinyxml2::XMLElement* node) : SQObject(Type::Feat, node)
         }
         else if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -643,7 +643,7 @@ Companion::Companion(tinyxml2::XMLElement* node) : SQObject(Type::Companion, nod
         }
         else if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -725,7 +725,7 @@ CompanionAction::CompanionAction(tinyxml2::XMLElement* node) : SQObject(Type::Co
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -787,7 +787,7 @@ AbilityScoreImprovement::AbilityScoreImprovement(tinyxml2::XMLElement* node) : S
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -859,7 +859,7 @@ Rule::Rule(tinyxml2::XMLElement* node) : SQObject(Type::Rule, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -913,7 +913,7 @@ Option::Option(tinyxml2::XMLElement* node) : SQObject(Type::Option, node), Sheet
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -974,7 +974,7 @@ Background::Background(tinyxml2::XMLElement* node) : SQObject(Type::Background, 
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1035,7 +1035,7 @@ BackgroundFeature::BackgroundFeature(tinyxml2::XMLElement* node) : SQObject(Type
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1110,7 +1110,7 @@ ClassFeature::ClassFeature(tinyxml2::XMLElement* node) : SQObject(Type::Class_Fe
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1197,7 +1197,7 @@ ArchetypeFeature::ArchetypeFeature(tinyxml2::XMLElement* node) : SQObject(Type::
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1284,7 +1284,7 @@ RaceVariant::RaceVariant(tinyxml2::XMLElement* node) : SQObject(Type::Race_Varia
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1355,7 +1355,7 @@ RacialTrait::RacialTrait(tinyxml2::XMLElement* node) : SQObject(Type::Racial_Tra
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1441,7 +1441,7 @@ SubRace::SubRace(tinyxml2::XMLElement* node) : SQObject(Type::Sub_Race, node), S
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1511,7 +1511,7 @@ Archetype::Archetype(tinyxml2::XMLElement* node) : SQObject(Type::Archetype, nod
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1599,7 +1599,7 @@ Race::Race(tinyxml2::XMLElement* node) : SQObject(Type::Race, node), SheetDispla
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1676,7 +1676,7 @@ Class::Class(tinyxml2::XMLElement* node) : SQObject(Type::Class, node), SheetDis
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -1778,7 +1778,7 @@ Item::Item(tinyxml2::XMLElement* node) : SQObject(Type::Item, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "sheet"))
         {
@@ -1855,7 +1855,7 @@ Weapon::Weapon(tinyxml2::XMLElement* node) : SQObject(Type::Weapon, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "sheet"))
         {
@@ -1927,7 +1927,7 @@ Armor::Armor(tinyxml2::XMLElement* node) : SQObject(Type::Armor, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "sheet"))
         {
@@ -2003,7 +2003,7 @@ MagicItem::MagicItem(tinyxml2::XMLElement* node) : SQObject(Type::Magic_Item, no
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "sheet"))
         {
@@ -2148,7 +2148,7 @@ CompanionTrait::CompanionTrait(tinyxml2::XMLElement* node) : SQObject(Type::Comp
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2209,7 +2209,7 @@ CompanionReaction::CompanionReaction(tinyxml2::XMLElement* node) : SQObject(Type
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2271,7 +2271,7 @@ Support::Support(tinyxml2::XMLElement* node) : SQObject(Type::Support, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2324,7 +2324,7 @@ WeaponProperty::WeaponProperty(tinyxml2::XMLElement* node) : SQObject(Type::Weap
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2377,7 +2377,7 @@ Proficiency::Proficiency(tinyxml2::XMLElement* node) : SQObject(Type::Proficienc
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2448,7 +2448,7 @@ BackgroundVariant::BackgroundVariant(tinyxml2::XMLElement* node) : SQObject(Type
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2514,7 +2514,7 @@ Grants::Grants(tinyxml2::XMLElement* node) : SQObject(Type::Grants, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2576,7 +2576,7 @@ Internal::Internal(tinyxml2::XMLElement* node) : SQObject(Type::Internal, node)
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2629,7 +2629,7 @@ Dragonmark::Dragonmark(tinyxml2::XMLElement* node) : SQObject(Type::Dragonmark, 
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2686,7 +2686,7 @@ MagicSchool::MagicSchool(tinyxml2::XMLElement* node) : SQObject(Type::Magic_Scho
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
@@ -2739,7 +2739,7 @@ Condition::Condition(tinyxml2::XMLElement* node) : SQObject(Type::Condition, nod
     {
         if (SafeCompareString(child->Value(), "description"))
         {
-            description = ReplaceSpecialInString(DescriptionToString(child));
+            description = (DescriptionToString(child));
         }
         else if (SafeCompareString(child->Value(), "compendium"))
         {
