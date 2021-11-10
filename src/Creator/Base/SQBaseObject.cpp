@@ -19,8 +19,8 @@ SQObject::SQObject(Type _type) : type(_type)
 
 SQObject::SQObject(Type _type, tinyxml2::XMLElement* node) : type(_type)
 {
-    name = ReplaceSpecialInString(node->FindAttribute("name")->Value());
-    source = ReplaceSpecialInString(node->FindAttribute("source")->Value());
+    name = node->FindAttribute("name")->Value();
+    source = node->FindAttribute("source")->Value();
     external_id = node->FindAttribute("id")->Value();
 }
 
