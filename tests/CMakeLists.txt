@@ -1,11 +1,14 @@
-file(GLOB test_sources RELATIVE ${CMAKE_SOURCE_DIR}/tests *.cpp)
+set(test_sources
+    ParLoad.cpp
+    CharacterLoad.cpp
+)
 foreach(test ${test_sources})
     string(REPLACE ".cpp" "" testname ${test})
     add_executable(${testname} ${test})
     target_link_libraries(${testname} 
         PUBLIC 
             CreatorBase 
-            ThirdParty
+            Creator
             project_options
             project_warnings
     )
