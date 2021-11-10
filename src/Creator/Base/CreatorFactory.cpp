@@ -1,7 +1,8 @@
 #include "Creator/Base/CreatorFactory.hpp"
 #include "Creator/Base/LoggingTools.hpp"
 #include "Creator/Base/StringTools.hpp"
-namespace Creator::Entity {
+namespace Creator::Entity
+{
 
 static void ApplySetType(const Tags::Setter& value, Factory::Settype& set, const char* text)
 {

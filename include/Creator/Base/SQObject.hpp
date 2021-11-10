@@ -7,7 +7,8 @@
 #include <algorithm>
 #include <tinyxml2.h>
 #include "CreatorFactory.hpp"
-namespace Creator::Entity {
+namespace Creator::Entity
+{
 
 /**
      * @brief Class to store a spell for DND 5e. All items can be read in from
