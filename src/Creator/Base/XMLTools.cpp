@@ -1,23 +1,5 @@
 #include <Creator/Base/XMLTools.hpp>
 #include <Creator/Base/LoggingTools.hpp>
-void Xmlelement::InsertAttribute(const std::string& name, const std::string& val)
-{
-    m_attributes[name].insert(val);
-}
-std::string Xmlelement::GetAttribute(const std::string& name) const
-{
-    if (m_attributes.find(name) != m_attributes.end())
-        return *m_attributes.at(name).begin();
-    return "";
-}
-bool Xmlelement::operator==(const Xmlelement& rhs)
-{
-    return m_value == rhs.m_value;
-}
-bool Xmlelement::operator!=(const Xmlelement& rhs)
-{
-    return m_value != rhs.m_value;
-}
 
 void RecursiveGetSpells(std::vector<Creator::Entity::Spell>& spells, tinyxml2::XMLElement* node)
 {
@@ -162,25 +144,6 @@ void RecursiveGetElementChildren(std::unordered_set<std::string>& values,
                 child = child->NextSiblingElement();
             }
         }
-        node = node->NextSiblingElement();
-    }
-}
-
-void RecursiveAddElements(std::unordered_map<std::string, std::vector<Xmlelement>>& gmap,
-    tinyxml2::XMLElement* node)
-{
-    while (node)
-    {
-        Xmlelement tmp;
-        tmp.m_value = node->Value();
-        auto att = node->FirstAttribute();
-        while (att)
-        {
-            tmp.InsertAttribute(att->Name(), att->Value());
-            att = att->Next();
-        }
-        gmap[tmp.m_value].push_back(tmp);
-        RecursiveAddElements(gmap, node->FirstChildElement());
         node = node->NextSiblingElement();
     }
 }

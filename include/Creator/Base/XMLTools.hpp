@@ -8,26 +8,9 @@
 #include "StringTools.hpp"
 #include "SQObject.hpp"
 
-/**
- * @brief Depreciated 
- * 
- */
-struct Xmlelement
-{
-    std::string m_value;
-    std::unordered_map<std::string, std::unordered_set<std::string>> m_attributes;
-    void InsertAttribute(const std::string& name, const std::string& val);
-    std::string GetAttribute(const std::string& name) const;
-    bool operator==(const Xmlelement& rhs);
-    bool operator!=(const Xmlelement& rhs);
-};
 
 // For each element type find all child values
 void RecursiveSieveElementTypes(std::unordered_map<std::string, std::unordered_set<std::string>>& smap,
-    tinyxml2::XMLElement* node);
-
-// For all element, find the basic information
-void RecursiveAddElements(std::unordered_map<std::string, std::vector<Xmlelement>>& gmap,
     tinyxml2::XMLElement* node);
 
 // For each element type, get the children names
