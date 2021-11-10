@@ -10,10 +10,10 @@ int main()
     using namespace std::string_literals;
     EntityList entityList;
     entityList.LoadFromParentDirectory(R"(C:\Users\boats\OneDrive\Surface Documents\5e Character Builder\custom)");
-    auto tmp = entityList.GetWhere(SearchType::NAME, "Warlock");
+    auto tmp = entityList.GetWhere(SearchType::TYPE, "Class");
     for (auto item : tmp)
     {
-        std::cout << item << '\n';
+        std::cout << item->name << '\n';
     }
     return 0;
 }
