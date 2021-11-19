@@ -6,7 +6,7 @@ include(CTest)
 enable_testing()
 
 include(cmake/StandardProjectSettings.cmake)
-
+include(cmake/wxWidgetsSettings.cmake)
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
 add_library(project_warnings INTERFACE)
