@@ -2,6 +2,7 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "C_Cpp.default.cppStandard": "c++17",
     "editor.formatOnSave": true,
+    "cmake.parallelJobs": 8,
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",
